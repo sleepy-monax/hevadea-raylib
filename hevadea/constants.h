@@ -1,0 +1,11 @@
+#pragma once
+
+#define CHUNK_UPDATE 1
+
+#define CHUNK_SIZE 16
+
+#define CHUNK_LOAD_DISTANCE 6
+
+#define CHUNK_UNLOAD_DISTANCE 8
+
+#define MAX_LOADED_CHUNK 2056
