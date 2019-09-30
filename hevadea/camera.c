@@ -1,4 +1,5 @@
 #include <raylib.h>
+#include <math.h>
 #include <hevadea/camera.h>
 
 static position_t camera_position = {0};
@@ -42,14 +43,17 @@ void camera_debug_draw(void)
 
 void camera_move(void)
 {
-    if (IsKeyDown(KEY_UP))
+    if (IsKeyPressed(KEY_UP))
     {
-        camera_zoom += 0.1;
+        camera_zoom *= 2;
     }
-    if (IsKeyDown(KEY_DOWN))
+    if (IsKeyPressed(KEY_DOWN))
     {
-        camera_zoom -= 0.1;
+        camera_zoom /= 2;
     }
+
+    camera_zoom = fmax(camera_zoom, 1.0);
+    camera_zoom = fmin(camera_zoom, 64.0);
 }
 
 rectangle_t camera_load_bound(void)
