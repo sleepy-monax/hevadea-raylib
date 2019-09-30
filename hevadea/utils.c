@@ -1,6 +1,15 @@
 #include <math.h>
+#include <unistd.h>
 
 #include <hevadea/utils.h>
+#include <hevadea/logger.h>
+
+void __attribute__((noreturn)) PANIC(const char *why)
+{
+    log_fatal("%s", why);
+
+    _exit(-1);
+}
 
 void iterate_spiral(int x, int y, int size, iterate_callback_t callback, void *arg)
 {

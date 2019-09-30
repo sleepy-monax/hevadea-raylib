@@ -2,7 +2,7 @@
 
 typedef enum
 {
-    COMPONENT_POSITION,
+    COMPONENT_PLAYER = 1 << 0,
 
     __COMPONENT_COUNT,
 } component_t;

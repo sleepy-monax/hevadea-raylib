@@ -34,29 +34,21 @@ void camera_render_end(void)
 
 void camera_debug_draw(void)
 {
-    DrawCircle(camera_position.X, camera_position.Y, 2, WHITE);
+    DrawCircleV((Vector2){camera_position.X, camera_position.Y}, 1 / camera_zoom, WHITE);
 
-    DrawRectangleLines(camera_load_bound().X, camera_load_bound().Y, camera_load_bound().W, camera_load_bound().H, BLUE);
+    DrawRectangleLines(camera_load_bound().X, camera_load_bound().Y, camera_load_bound().W, camera_load_bound().H, WHITE);
     DrawRectangleLines(camera_unload_bound().X, camera_unload_bound().Y, camera_unload_bound().W, camera_unload_bound().H, RED);
 }
 
 void camera_move(void)
 {
-    if (IsKeyDown(KEY_W))
+    if (IsKeyDown(KEY_UP))
     {
-        camera_position.Y -= 8;
+        camera_zoom += 0.1;
     }
-    if (IsKeyDown(KEY_S))
+    if (IsKeyDown(KEY_DOWN))
     {
-        camera_position.Y += 8;
-    }
-    if (IsKeyDown(KEY_A))
-    {
-        camera_position.X -= 8;
-    }
-    if (IsKeyDown(KEY_D))
-    {
-        camera_position.X += 8;
+        camera_zoom -= 0.1;
     }
 }
 
