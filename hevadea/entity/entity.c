@@ -1,22 +1,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <hevadea/entity.h>
-#include <hevadea/system.h>
+#include <hevadea/entity/entity.h>
+#include <hevadea/system/system.h>
 #include <hevadea/logger.h>
 
-void construct_player_entity(entity_instance_t *instance)
-{
-    instance->components = COMPONENT_PLAYER | COMPONENT_MOTION | COMPONENT_COLIDER;
-    instance->colider = (rectangle_t){-4, -4, 8, 8};
-}
+#include <hevadea/entity/player.h>
+#include <hevadea/entity/rabbit.h>
+#include <hevadea/entity/tree.h>
 
-const entity_blueprint_t entity_PLAYER = (entity_blueprint_t){
-    .name = "player",
-    .construct = construct_player_entity,
+const entity_blueprint_t *blueprints[] = {
+    &entity_PLAYER,
+    &entity_TREE,
+    &entity_RABBIT,
+    NULL,
 };
-
-const entity_blueprint_t *blueprints[] = {&entity_PLAYER, NULL};
 
 static entity_instance_t *entity_instances = NULL;
 
@@ -67,6 +65,8 @@ entity_t entity_alloc(void)
 
         if (!instance->allocated)
         {
+            memset(instance, 0, sizeof(entity_iterate_callback_t));
+
             instance->allocated = true;
             entity_instances_used++;
 
@@ -169,4 +169,9 @@ bool entity_colide_with(entity_t entity, rectangle_t bound)
            a.X + a.W > b.X &&
            a.Y < b.Y + b.H &&
            a.Y + a.H > b.Y;
+}
+
+chunk_position_t entity_get_chunk(entity_t entity)
+{
+    return position_to_chunk_position(E(entity)->position);
 }

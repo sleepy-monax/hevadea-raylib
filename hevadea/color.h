@@ -10,6 +10,9 @@ typedef struct
     uint8_t A;
 } color_t;
 
+#define RGB(__r, __g, __b) \
+    (color_t) { __r, __g, __b, 255 }
+
 #define COLOR_WHITE \
     (color_t) { 255, 255, 255, 255 }
 

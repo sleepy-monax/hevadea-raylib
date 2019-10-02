@@ -5,6 +5,7 @@
 #include <hevadea/chunkloader.h>
 #include <hevadea/generator.h>
 #include <hevadea/utils.h>
+#include <hevadea/entity/entity.h>
 
 /* --- Chunk sheduler ------------------------------------------------------- */
 
@@ -90,12 +91,26 @@ void chunkloader_load_chunks(void)
 
 /* --- Chunk unloading ------------------------------------------------------ */
 
+static iterate_state_t entity_unload_callback(entity_t entity, chunk_t *chunk)
+{
+    chunk_position_t entity_pos = entity_get_chunk(entity);
+
+    if (chunk_position_equal(entity_pos, chunk->position))
+    {
+        entity_destroy(entity);
+    }
+
+    return ITERATION_CONTINUE;
+}
+
 static iterate_state_t chunk_unload_callback(chunk_t *chunk, void *args)
 {
     (void)args;
 
     if (chunk->state == CHUNK_STATE_UNLOADING_SHEDULED)
     {
+        entity_iterate_all((entity_iterate_callback_t)entity_unload_callback, chunk);
+
         chunk->state = CHUNK_STATE_UNLOADED;
 
         return ITERATION_STOP;

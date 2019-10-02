@@ -3,7 +3,7 @@
 #include <hevadea/camera.h>
 #include <hevadea/chunk.h>
 #include <hevadea/chunkloader.h>
-#include <hevadea/system.h>
+#include <hevadea/system/system.h>
 #include <hevadea/logger.h>
 #include <hevadea/gui.h>
 

@@ -1,5 +1,6 @@
-#include <raylib.h>
 #include <stddef.h>
+#include <raylib.h>
+#include <math.h>
 
 #include <hevadea/chunk.h>
 #include <hevadea/camera.h>
@@ -120,9 +121,30 @@ iterate_state_t chunk_render_terrain_callback(chunk_t *chunk, void *arg)
 
             tile_blueprint_t *t = chunk->tiles[x][y].blueprint;
 
-            Color c = {t->color.R, t->color.G, t->color.B, t->color.A};
+            graphic_fill_rectangle(tile_bound(pos), t->color);
 
-            DrawRectangle(pos.X * UNIT_PER_TILE, pos.Y * UNIT_PER_TILE, UNIT_PER_TILE, UNIT_PER_TILE, c);
+            if (IsKeyDown(KEY_I))
+            {
+                double value = (chunk->tiles[x][y].elevation + 1) / 2;
+                int vv = 255 * fmax(value, 0);
+                color_t tempcolor = (color_t){vv, 0, 0, 255};
+                graphic_fill_rectangle(tile_bound(pos), tempcolor);
+            }
+            if (IsKeyDown(KEY_O))
+            {
+                double value = (chunk->tiles[x][y].moisture + 1) / 2;
+                int vv = 255 * fmax(value, 0);
+                color_t tempcolor = (color_t){0, 0, vv, 255};
+                graphic_fill_rectangle(tile_bound(pos), tempcolor);
+            }
+
+            if (IsKeyDown(KEY_P))
+            {
+                double value = (chunk->tiles[x][y].temperature + 1) / 2;
+                int vv = 255 * fmax(value, 0);
+                color_t tempcolor = (color_t){0, vv, 0, 255};
+                graphic_fill_rectangle(tile_bound(pos), tempcolor);
+            }
         }
     }
 

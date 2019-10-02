@@ -1,4 +1,4 @@
-SOURCES = $(wildcard hevadea/*.c)
+SOURCES = $(wildcard hevadea/*.c) $(wildcard hevadea/*/*.c)
 OBJECTS = $(SOURCES:.c=.o)
 
 CC = gcc

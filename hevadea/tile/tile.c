@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <string.h>
 
-#include <hevadea/tile.h>
+#include <hevadea/tile/tile.h>
 #include <hevadea/utils.h>
 #include <hevadea/chunk.h>
 
@@ -23,9 +23,39 @@ tile_blueprint_t TILE_SAND = {
     .components = 0,
 };
 
+tile_blueprint_t TILE_BEACH_SAND = {
+    .name = "beach_sand",
+    .color = (color_t){255, 200, 100, 255},
+    .components = 0,
+};
+
 tile_blueprint_t TILE_GRASS = {
     .name = "grass",
     .color = (color_t){0, 175, 0, 255},
+    .components = 0,
+};
+
+tile_blueprint_t TILE_FOREST_GRASS = {
+    .name = "forest_grass",
+    .color = (color_t){0, 125, 25, 255},
+    .components = 0,
+};
+
+tile_blueprint_t TILE_SWAMP_GRASS = {
+    .name = "swamp_grass",
+    .color = (color_t){0, 100, 0, 255},
+    .components = 0,
+};
+
+tile_blueprint_t TILE_SNOW = {
+    .name = "snow",
+    .color = (color_t){225, 225, 255, 255},
+    .components = 0,
+};
+
+tile_blueprint_t TILE_DIRT = {
+    .name = "dirt",
+    .color = (color_t){125, 125, 50, 255},
     .components = 0,
 };
 
@@ -35,7 +65,19 @@ tile_blueprint_t TILE_ROCK = {
     .components = TILE_COMPONENT_SOLID,
 };
 
-static tile_blueprint_t *blueprints[] = {&TILE_WATER, &TILE_DEEP_WATER, &TILE_SAND, &TILE_GRASS, &TILE_ROCK, NULL};
+static tile_blueprint_t *blueprints[] = {
+    &TILE_WATER,
+    &TILE_DEEP_WATER,
+    &TILE_SAND,
+    &TILE_BEACH_SAND,
+    &TILE_GRASS,
+    &TILE_SWAMP_GRASS,
+    &TILE_FOREST_GRASS,
+    &TILE_SNOW,
+    &TILE_DIRT,
+    &TILE_ROCK,
+    NULL,
+};
 
 tile_instance_t *tile_at(tile_position_t pos)
 {

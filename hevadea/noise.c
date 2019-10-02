@@ -124,12 +124,14 @@ double noise_octave(double x, double y, double scale, int octave)
 {
     double value = 0;
     double strength = 1;
+    double normalizer = 0;
     for (int i = 0; i < octave; i++)
     {
         value += noise(x, y, scale) * strength;
+        normalizer += strength;
         strength /= 2;
         scale *= 2;
     }
 
-    return value;
+    return value / normalizer;
 }

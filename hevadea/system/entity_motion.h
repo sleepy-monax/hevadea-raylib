@@ -1,8 +1,7 @@
 #pragma once
 
-#include <raylib.h>
+#include <hevadea/system/system.h>
 #include <hevadea/camera.h>
-#include <hevadea/system.h>
 
 static vector_t system_entity_motion_check_with_tile(entity_t entity, vector_t motion, tile_position_t pos)
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <hevadea/entity.h>
+#include <hevadea/entity/entity.h>
 
 typedef enum
 {

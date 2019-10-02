@@ -1,14 +1,22 @@
+#include <hevadea/entity/entity.h>
+#include <hevadea/biome/biome.h>
 #include <hevadea/generator.h>
 #include <hevadea/noise.h>
 
-double generator_terrain_altitude(tile_position_t pos)
+double generator_terrain_elevation(tile_position_t pos)
 {
     return noise_octave(pos.X, pos.Y, 1 / 128.0, 32);
 }
 
-// double generator_terrain_temperature(tile_position_t pos)
-// {
-// }
+double generator_terrain_moisture(tile_position_t pos)
+{
+    return noise_octave(pos.X + 10000, pos.Y, 1 / 256.0, 8);
+}
+
+double generator_terrain_temperature(tile_position_t pos)
+{
+    return noise_octave(pos.X, pos.Y + 10000, 1 / 256.0, 8);
+}
 
 void generator_terain(chunk_t *chunk)
 {
@@ -19,34 +27,18 @@ void generator_terain(chunk_t *chunk)
         for (int y = 0; y < TILE_PER_CHUNK; y++)
         {
             tile_position_t pos = (tile_position_t){x, y};
-            double value = generator_terrain_altitude(POS_ADD(tile_position_t, chunk_pos, pos));
 
-            if (value > 0)
-            {
-                if (value > 0.95)
-                {
-                    chunk->tiles[x][y].blueprint = &TILE_ROCK;
-                }
-                else if (value > 0.3)
-                {
-                    chunk->tiles[x][y].blueprint = &TILE_GRASS;
-                }
-                else
-                {
-                    chunk->tiles[x][y].blueprint = &TILE_SAND;
-                }
-            }
-            else
-            {
-                if (value > -0.5)
-                {
-                    chunk->tiles[x][y].blueprint = &TILE_WATER;
-                }
-                else
-                {
-                    chunk->tiles[x][y].blueprint = &TILE_DEEP_WATER;
-                }
-            }
+            double elevation = generator_terrain_elevation(POS_ADD(tile_position_t, chunk_pos, pos));
+            double moisture = generator_terrain_moisture(POS_ADD(tile_position_t, chunk_pos, pos));
+            double temperature = generator_terrain_temperature(POS_ADD(tile_position_t, chunk_pos, pos));
+
+            biome_t *biome = biome_lookup(temperature, elevation, moisture);
+
+            chunk->tiles[x][y].blueprint = biome->tile;
+
+            chunk->tiles[x][y].elevation = elevation;
+            chunk->tiles[x][y].moisture = moisture;
+            chunk->tiles[x][y].temperature = temperature;
         }
     }
 }

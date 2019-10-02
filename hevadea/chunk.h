@@ -1,7 +1,7 @@
 #pragma once
 
 #include <hevadea/position.h>
-#include <hevadea/tile.h>
+#include <hevadea/tile/tile.h>
 #include <hevadea/constants.h>
 #include <hevadea/rectangle.h>
 

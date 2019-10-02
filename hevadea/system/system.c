@@ -1,10 +1,10 @@
 #include <stddef.h>
 #include <raylib.h>
 
-#include <hevadea/system.h>
 #include <hevadea/camera.h>
 #include <hevadea/logger.h>
 
+#include <hevadea/system/system.h>
 #include <hevadea/system/debug_entity_colider.h>
 #include <hevadea/system/debug_entity_motion.h>
 #include <hevadea/system/entity_motion.h>
@@ -12,12 +12,10 @@
 
 static system_t *systems[] = {
     &system_player_input,
-
-    &system_debug_entity_colider,
-    &system_debug_entity_motion,
-
     &system_entity_motion,
 
+    &system_debug_entity_motion,
+    &system_debug_entity_colider,
     NULL,
 };
 

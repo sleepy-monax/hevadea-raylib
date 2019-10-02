@@ -1,8 +1,9 @@
 #pragma once
 
 #include <raylib.h>
+
+#include <hevadea/system/system.h>
 #include <hevadea/graphic.h>
-#include <hevadea/system.h>
 
 static void system_debug_entity_motion_process(entity_t entity, double deltatime)
 {

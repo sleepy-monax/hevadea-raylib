@@ -24,6 +24,7 @@ typedef struct
     position_t position;
     vector_t motion;
     rectangle_t colider;
+    double lifetime;
 
     const struct entity_blueprint_t *blueprint;
 } entity_instance_t;
@@ -61,3 +62,5 @@ void entity_iterate_all(entity_iterate_callback_t callback, void *arg);
 bool entity_has_component(entity_t entity, entity_component_t mask);
 
 rectangle_t entity_get_bound(entity_t entity);
+
+chunk_position_t entity_get_chunk(entity_t entity);
