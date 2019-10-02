@@ -4,6 +4,7 @@
 
 typedef struct
 {
+    int atlas;
     rectangle_t rect;
 } sprite_t;
 

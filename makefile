@@ -4,14 +4,15 @@ OBJECTS = $(SOURCES:.c=.o)
 CC = gcc
 
 LDFLAGS = -lraylib -lm
-CFLAGS = -MD \
+CFLAGS = -g \
+		 -MD \
 		 -I. \
 		 -Wall \
 		 -Wextra \
-		 -Werror
+		 -Werror \
 		 -fsanitize=address \
-		 -fsanitize=undefined
-
+		 -fsanitize=undefined 
+ 
 hevadea.out: $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 

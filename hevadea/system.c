@@ -5,39 +5,19 @@
 #include <hevadea/camera.h>
 #include <hevadea/logger.h>
 
-#define PLAYER_MOVE_SPEED 2
-
-static void system_player_input_process(entity_t player, double deltatime)
-{
-    if (IsKeyDown(KEY_W))
-    {
-        E(player)->position.Y -= PLAYER_MOVE_SPEED * deltatime;
-    }
-    if (IsKeyDown(KEY_S))
-    {
-        E(player)->position.Y += PLAYER_MOVE_SPEED * deltatime;
-    }
-    if (IsKeyDown(KEY_A))
-    {
-        E(player)->position.X -= PLAYER_MOVE_SPEED * deltatime;
-    }
-    if (IsKeyDown(KEY_D))
-    {
-        E(player)->position.X += PLAYER_MOVE_SPEED * deltatime;
-    }
-
-    camera_set_position(E(player)->position);
-}
-
-static system_t system_player_input = {
-    .name = "player_input",
-    .type = SYSTEM_PROCESS,
-    .mask = COMPONENT_PLAYER,
-    .process = system_player_input_process,
-};
+#include <hevadea/system/debug_entity_colider.h>
+#include <hevadea/system/debug_entity_motion.h>
+#include <hevadea/system/entity_motion.h>
+#include <hevadea/system/player_input.h>
 
 static system_t *systems[] = {
     &system_player_input,
+
+    &system_debug_entity_colider,
+    &system_debug_entity_motion,
+
+    &system_entity_motion,
+
     NULL,
 };
 
@@ -49,14 +29,14 @@ typedef struct
 
 iterate_state_t system_process_callback(entity_t entity, system_process_callback_args_t *args)
 {
-    bool is_entity_processable = (E(entity)->blueprint->components & args->sys->mask) == args->sys->mask;
+    bool is_entity_processable = entity_has_component(entity, args->sys->mask);
 
     if (is_entity_processable)
     {
         args->sys->process(entity, 1 / 60.0);
     }
 
-    return SEARCH_CONTINUE;
+    return ITERATION_CONTINUE;
 }
 
 void system_process(system_type_t type, double deltatime)

@@ -30,7 +30,7 @@ static iterate_state_t chunk_load_shedule_callback(int x, int y, void *args)
         chunk->state = CHUNK_STATE_LOADED;
     }
 
-    return SEARCH_CONTINUE;
+    return ITERATION_CONTINUE;
 }
 
 static iterate_state_t chunk_unload_shedule_callback(chunk_t *chunk, void *arg)
@@ -49,7 +49,7 @@ static iterate_state_t chunk_unload_shedule_callback(chunk_t *chunk, void *arg)
         }
     }
 
-    return SEARCH_CONTINUE;
+    return ITERATION_CONTINUE;
 }
 
 void chunkloader_shedule(void)
@@ -76,10 +76,10 @@ static iterate_state_t chunk_load_callback(int x, int y, void *args)
 
         generator_terain(chunk);
 
-        return SEARCH_STOP;
+        return ITERATION_STOP;
     }
 
-    return SEARCH_CONTINUE;
+    return ITERATION_CONTINUE;
 }
 
 void chunkloader_load_chunks(void)
@@ -98,10 +98,10 @@ static iterate_state_t chunk_unload_callback(chunk_t *chunk, void *args)
     {
         chunk->state = CHUNK_STATE_UNLOADED;
 
-        return SEARCH_STOP;
+        return ITERATION_STOP;
     }
 
-    return SEARCH_CONTINUE;
+    return ITERATION_CONTINUE;
 }
 
 void chunkloader_unload_chunks(void)

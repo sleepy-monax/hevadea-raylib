@@ -27,7 +27,7 @@ void iterate_spiral(int x, int y, int size, iterate_callback_t callback, void *a
         {
             for (int i = 0; i < s; i++)
             {
-                if (callback(x + offx - size, y + offy - size, arg) == SEARCH_STOP)
+                if (callback(x + offx - size, y + offy - size, arg) == ITERATION_STOP)
                 {
                     return;
                 }
@@ -55,7 +55,7 @@ void iterate_spiral(int x, int y, int size, iterate_callback_t callback, void *a
         s = s + 1;
     }
 
-    if (callback(x + offx - size, y + offy - size, arg) == SEARCH_STOP)
+    if (callback(x + offx - size, y + offy - size, arg) == ITERATION_STOP)
     {
         return;
     }
@@ -67,7 +67,7 @@ void iterate_square(int x, int y, int size, iterate_callback_t callback, void *a
     {
         for (int offy = -size; offy < size; offy++)
         {
-            if (callback(x + offx, y + offy, arg) == SEARCH_STOP)
+            if (callback(x + offx, y + offy, arg) == ITERATION_STOP)
             {
                 return;
             }

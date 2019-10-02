@@ -1,27 +1,41 @@
-#include <raylib.h>
 #include <math.h>
-#include <hevadea/camera.h>
+#include <stdlib.h>
+#include <raylib.h>
 
-static position_t camera_position = {0};
+#include <hevadea/logger.h>
+#include <hevadea/camera.h>
+#include <hevadea/graphic.h>
+
+static position_t camera_position_animated = {0};
+static position_t camera_position_focused = {0};
+
+static double camera_zoom_animated = 1.0;
 static double camera_zoom = 1.0;
 
 position_t camera_get_position(void)
 {
-    return camera_position;
+    return camera_position_animated;
 }
 
-void camera_set_position(position_t position)
+void camera_set_focus(position_t position)
 {
-    camera_position = position;
+    camera_position_focused = position;
 }
 
 void camera_render_begin(void)
 {
     Camera2D raylib_cam = {0};
 
-    raylib_cam.zoom = camera_zoom;
-    raylib_cam.target.x = camera_position.X;
-    raylib_cam.target.y = camera_position.Y;
+    if (IsKeyDown(KEY_SPACE))
+    {
+        raylib_cam.zoom = 1.0 / UNIT_PER_TILE;
+    }
+    else
+    {
+        raylib_cam.zoom = camera_zoom_animated;
+    }
+    raylib_cam.target.x = camera_position_animated.X;
+    raylib_cam.target.y = camera_position_animated.Y;
     raylib_cam.offset.x = GetScreenWidth() / 2;
     raylib_cam.offset.y = GetScreenHeight() / 2;
 
@@ -35,13 +49,15 @@ void camera_render_end(void)
 
 void camera_debug_draw(void)
 {
-    DrawCircleV((Vector2){camera_position.X, camera_position.Y}, 1 / camera_zoom, WHITE);
+    graphic_draw_rectangle(camera_load_bound(), COLOR_WHITE);
+    graphic_draw_rectangle(camera_unload_bound(), COLOR_RED);
+    graphic_draw_rectangle(camera_screen_bound(), COLOR_CYAN);
 
-    DrawRectangleLines(camera_load_bound().X, camera_load_bound().Y, camera_load_bound().W, camera_load_bound().H, WHITE);
-    DrawRectangleLines(camera_unload_bound().X, camera_unload_bound().Y, camera_unload_bound().W, camera_unload_bound().H, RED);
+    graphic_draw_line((vector_t){-1000000, 0}, (vector_t){1000000, 0}, COLOR_RED);
+    graphic_draw_line((vector_t){0, -1000000}, (vector_t){0, 1000000}, COLOR_GREEN);
 }
 
-void camera_move(void)
+void camera_update(double deltatime)
 {
     if (IsKeyPressed(KEY_UP))
     {
@@ -52,19 +68,27 @@ void camera_move(void)
         camera_zoom /= 2;
     }
 
-    camera_zoom = fmax(camera_zoom, 1.0);
-    camera_zoom = fmin(camera_zoom, 64.0);
+    camera_zoom = fmax(camera_zoom, 1.0 / UNIT_PER_TILE);
+    camera_zoom = fmin(camera_zoom, 4.0 * UNIT_PER_TILE);
+
+    camera_position_animated.X +=
+        (camera_position_focused.X - camera_position_animated.X) * deltatime * camera_zoom_animated;
+
+    camera_position_animated.Y +=
+        (camera_position_focused.Y - camera_position_animated.Y) * deltatime * camera_zoom_animated;
+
+    camera_zoom_animated += (camera_zoom - camera_zoom_animated) * deltatime;
 }
 
 rectangle_t camera_load_bound(void)
 {
     rectangle_t bound;
 
-    bound.X = camera_position.X - (CHUNK_LOAD_DISTANCE * CHUNK_SIZE);
-    bound.Y = camera_position.Y - (CHUNK_LOAD_DISTANCE * CHUNK_SIZE);
+    bound.X = camera_position_animated.X - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.Y = camera_position_animated.Y - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
 
-    bound.W = 2 * (CHUNK_LOAD_DISTANCE * CHUNK_SIZE);
-    bound.H = 2 * (CHUNK_LOAD_DISTANCE * CHUNK_SIZE);
+    bound.W = 2 * (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.H = 2 * (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
 
     return bound;
 }
@@ -73,11 +97,48 @@ rectangle_t camera_unload_bound(void)
 {
     rectangle_t bound;
 
-    bound.X = camera_position.X - (CHUNK_UNLOAD_DISTANCE * CHUNK_SIZE);
-    bound.Y = camera_position.Y - (CHUNK_UNLOAD_DISTANCE * CHUNK_SIZE);
+    bound.X = camera_position_animated.X - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.Y = camera_position_animated.Y - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
 
-    bound.W = 2 * (CHUNK_UNLOAD_DISTANCE * CHUNK_SIZE);
-    bound.H = 2 * (CHUNK_UNLOAD_DISTANCE * CHUNK_SIZE);
+    bound.W = 2 * (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.H = 2 * (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
 
     return bound;
+}
+
+rectangle_t camera_screen_bound(void)
+{
+    rectangle_t bound;
+
+    bound.X = camera_position_animated.X - ((GetScreenWidth() / 2) / camera_zoom_animated);
+    bound.Y = camera_position_animated.Y - ((GetScreenHeight() / 2) / camera_zoom_animated);
+
+    bound.W = GetScreenWidth() / camera_zoom_animated;
+    bound.H = GetScreenHeight() / camera_zoom_animated;
+
+    return bound;
+}
+
+void camera_interate_on_screen_chunk(chunk_iterate_callback_t callback, void *arg)
+{
+    chunk_position_t start_pos = rectangle_topleft_chunk(camera_screen_bound());
+    chunk_position_t end_pos = rectangle_bottomright_chunk(camera_screen_bound());
+
+    for (int cx = start_pos.X; cx <= end_pos.X; cx++)
+    {
+        for (int cy = start_pos.Y; cy <= end_pos.Y; cy++)
+        {
+            chunk_position_t pos = (chunk_position_t){cx, cy};
+
+            chunk_t *chunk = chunk_at(pos);
+
+            if (chunk != NULL)
+            {
+                if (callback(chunk, arg) == ITERATION_STOP)
+                {
+                    return;
+                }
+            }
+        }
+    }
 }

@@ -5,6 +5,7 @@
 #include <hevadea/chunkloader.h>
 #include <hevadea/system.h>
 #include <hevadea/logger.h>
+#include <hevadea/gui.h>
 
 static const char *WINDOW_TITLE = "Hevadea";
 static const int WINDOW_HEIGHT = 600;
@@ -13,7 +14,7 @@ static const int WINDOW_FPS = 60;
 
 void game_update(double deltatime)
 {
-    camera_move();
+    camera_update(deltatime);
 
     chunkloader_shedule();
 
@@ -29,7 +30,7 @@ void game_update(double deltatime)
 void game_draw(double deltatime)
 {
     BeginDrawing();
-    ClearBackground(BLACK);
+    ClearBackground(BLUE);
 
     camera_render_begin();
     {
@@ -50,7 +51,7 @@ void game_draw(double deltatime)
 
 void game_loop(void)
 {
-    entity_create(entity_blueprint("player"), (position_t){0, 0});
+    entity_create(entity_blueprint("player"), (position_t){16, 16});
 
     while (!WindowShouldClose())
     {

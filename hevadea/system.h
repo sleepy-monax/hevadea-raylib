@@ -14,7 +14,7 @@ typedef struct
 {
     const char *name;
     system_type_t type;
-    component_t mask;
+    int mask;
     system_process_callback_t process;
 } system_t;
 

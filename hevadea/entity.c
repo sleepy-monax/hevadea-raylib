@@ -5,7 +5,16 @@
 #include <hevadea/system.h>
 #include <hevadea/logger.h>
 
-const entity_blueprint_t entity_PLAYER = (entity_blueprint_t){.name = "player", .components = COMPONENT_PLAYER};
+void construct_player_entity(entity_instance_t *instance)
+{
+    instance->components = COMPONENT_PLAYER | COMPONENT_MOTION | COMPONENT_COLIDER;
+    instance->colider = (rectangle_t){-4, -4, 8, 8};
+}
+
+const entity_blueprint_t entity_PLAYER = (entity_blueprint_t){
+    .name = "player",
+    .construct = construct_player_entity,
+};
 
 const entity_blueprint_t *blueprints[] = {&entity_PLAYER, NULL};
 
@@ -86,6 +95,8 @@ entity_t entity_create(const entity_blueprint_t *blueprint, position_t position)
     E(entity)->blueprint = blueprint;
     E(entity)->position = position;
 
+    blueprint->construct(E(entity));
+
     return entity;
 }
 
@@ -109,16 +120,53 @@ entity_instance_t *entity_instance(entity_t entity)
     PANIC("Entity is not allocated!");
 }
 
+/* --- Entity iterator ----------------------------------------------------- */
+
 void entity_iterate_all(entity_iterate_callback_t callback, void *arg)
 {
     for (unsigned int i = 0; i < entity_instances_allocated; i++)
     {
         if (entity_instances[i].allocated == true)
         {
-            if (callback(i, arg) == SEARCH_STOP)
+            if (callback(i, arg) == ITERATION_STOP)
             {
                 return;
             }
         }
     }
+}
+
+/* --- Entity state --------------------------------------------------------- */
+
+bool entity_has_component(entity_t entity, entity_component_t mask)
+{
+    return (E(entity)->components & mask) == mask;
+}
+
+rectangle_t entity_get_bound(entity_t entity)
+{
+    if (entity_has_component(entity, COMPONENT_COLIDER))
+    {
+        return (rectangle_t){
+            E(entity)->position.X + E(entity)->colider.X,
+            E(entity)->position.Y + E(entity)->colider.Y,
+            E(entity)->colider.W,
+            E(entity)->colider.H,
+        };
+    }
+    else
+    {
+        return (rectangle_t){E(entity)->position.X, E(entity)->position.Y, 1, 1};
+    }
+}
+
+bool entity_colide_with(entity_t entity, rectangle_t bound)
+{
+    rectangle_t a = entity_get_bound(entity);
+    rectangle_t b = bound;
+
+    return a.X < b.X + b.W &&
+           a.X + a.W > b.X &&
+           a.Y < b.Y + b.H &&
+           a.Y + a.H > b.Y;
 }

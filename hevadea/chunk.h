@@ -19,7 +19,7 @@ typedef struct
 {
     chunk_state_t state;
     chunk_position_t position;
-    tile_t tiles[CHUNK_SIZE][CHUNK_SIZE];
+    tile_instance_t tiles[TILE_PER_CHUNK][TILE_PER_CHUNK];
 } chunk_t;
 
 chunk_t *chunk_at(chunk_position_t at);

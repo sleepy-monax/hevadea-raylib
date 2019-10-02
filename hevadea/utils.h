@@ -4,8 +4,8 @@
 
 typedef enum
 {
-    SEARCH_CONTINUE,
-    SEARCH_STOP,
+    ITERATION_CONTINUE,
+    ITERATION_STOP,
 } iterate_state_t;
 
 typedef iterate_state_t (*iterate_callback_t)(int x, int y, void *arg);
