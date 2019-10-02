@@ -55,7 +55,7 @@ static iterate_state_t chunk_unload_shedule_callback(chunk_t *chunk, void *arg)
 void chunkloader_shedule(void)
 {
     // Shedule chunk loading
-    chunk_position_t camera_pos = position_to_chunk_position(camera_get_position());
+    chunk_position_t camera_pos = position_to_chunk_position(camera_get_focus());
     iterate_square(camera_pos.X, camera_pos.Y, CHUNK_LOAD_DISTANCE, chunk_load_shedule_callback, NULL);
 
     // Shedule chunk unloading
@@ -84,7 +84,7 @@ static iterate_state_t chunk_load_callback(int x, int y, void *args)
 
 void chunkloader_load_chunks(void)
 {
-    chunk_position_t camera_pos = position_to_chunk_position(camera_get_position());
+    chunk_position_t camera_pos = position_to_chunk_position(camera_get_focus());
     iterate_spiral(camera_pos.X, camera_pos.Y, CHUNK_LOAD_DISTANCE, chunk_load_callback, NULL);
 }
 

@@ -6,6 +6,8 @@
 
 position_t camera_get_position(void);
 
+position_t camera_get_focus(void);
+
 void camera_set_focus(position_t position);
 
 void camera_render_begin(void);

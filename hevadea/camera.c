@@ -22,6 +22,11 @@ void camera_set_focus(position_t position)
     camera_position_focused = position;
 }
 
+position_t camera_get_focus(void)
+{
+    return camera_position_focused;
+}
+
 void camera_render_begin(void)
 {
     Camera2D raylib_cam = {0};
@@ -68,8 +73,8 @@ void camera_update(double deltatime)
         camera_zoom /= 2;
     }
 
-    camera_zoom = fmax(camera_zoom, 1.0 / UNIT_PER_TILE);
-    camera_zoom = fmin(camera_zoom, 4.0 * UNIT_PER_TILE);
+    camera_zoom = fmax(camera_zoom, 4.0 / UNIT_PER_TILE);
+    camera_zoom = fmin(camera_zoom, 1.0 * UNIT_PER_TILE);
 
     camera_position_animated.X +=
         (camera_position_focused.X - camera_position_animated.X) * deltatime * camera_zoom_animated;
@@ -77,15 +82,15 @@ void camera_update(double deltatime)
     camera_position_animated.Y +=
         (camera_position_focused.Y - camera_position_animated.Y) * deltatime * camera_zoom_animated;
 
-    camera_zoom_animated += (camera_zoom - camera_zoom_animated) * deltatime;
+    camera_zoom_animated += 4 * (camera_zoom - camera_zoom_animated) * deltatime;
 }
 
 rectangle_t camera_load_bound(void)
 {
     rectangle_t bound;
 
-    bound.X = camera_position_animated.X - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
-    bound.Y = camera_position_animated.Y - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.X = camera_position_focused.X - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.Y = camera_position_focused.Y - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
 
     bound.W = 2 * (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
     bound.H = 2 * (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
@@ -97,8 +102,8 @@ rectangle_t camera_unload_bound(void)
 {
     rectangle_t bound;
 
-    bound.X = camera_position_animated.X - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
-    bound.Y = camera_position_animated.Y - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.X = camera_position_focused.X - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.Y = camera_position_focused.Y - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
 
     bound.W = 2 * (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
     bound.H = 2 * (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
