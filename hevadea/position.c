@@ -1,5 +1,7 @@
 #include <math.h>
+
 #include <hevadea/position.h>
+#include <hevadea/vector.h>
 
 #define DEFN_POSITION_CONVERT_FUNCTION(__from, __to, __how)              \
     __to##_t __from##_to_##__to(__from##_t pos)                          \
@@ -14,6 +16,16 @@ DEFN_POSITION_CONVERT_FUNCTION(position, tile_position, POS_TO_TILE)
 
 #define POS_TO_CHUNK(__v) (int)floor(__v / UNIT_PER_CHUNK)
 DEFN_POSITION_CONVERT_FUNCTION(position, chunk_position, POS_TO_CHUNK)
+
+vector_t position_sub(position_t left, position_t right)
+{
+    return (vector_t){left.X - right.X, left.Y - right.Y};
+}
+
+position_t position_offset(position_t pos, vector_t vec)
+{
+    return (position_t){pos.X + vec.X, pos.Y + vec.Y};
+}
 
 /* --- Tile Position -------------------------------------------------------- */
 

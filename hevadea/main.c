@@ -1,11 +1,15 @@
 #include <raylib.h>
+#include <math.h>
 
 #include <hevadea/camera.h>
+#include <hevadea/sprites.h>
 #include <hevadea/chunk.h>
 #include <hevadea/chunkloader.h>
 #include <hevadea/system/system.h>
 #include <hevadea/logger.h>
 #include <hevadea/gui.h>
+
+// #include <hevadea/biome/biome.h>
 
 static const char *WINDOW_TITLE = "Hevadea";
 static const int WINDOW_HEIGHT = 600;
@@ -44,6 +48,15 @@ void game_draw(double deltatime)
     }
     camera_render_end();
 
+    // for (int x = -100; x <= 100; x++)
+    // {
+    //     for (int y = -100; y <= 100; y++)
+    //     {
+    //         color_t c = biome_lookup(x / 100.0, y / 100.0, sin(GetTime()))->tile->color;
+    //         DrawRectangle(GetScreenWidth() / 2 + x, GetScreenHeight() / 2 + y, 1, 1, (Color){c.R, c.G, c.B, 255});
+    //     }
+    // }
+
     DrawFPS(16, 16);
 
     EndDrawing();
@@ -64,11 +77,18 @@ void game_loop(void)
 
 int main(void)
 {
+    log_info("Intializing raylib...");
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
+
+    sprites_load();
 
     SetTargetFPS(WINDOW_FPS);
 
+    log_info("Entering gameloop...");
     game_loop();
 
+    log_info("Closing window...");
     CloseWindow();
+
+    log_info("Goodbye");
 }

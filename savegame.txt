@@ -1,0 +1,80 @@
+begin world
+    begin level "sky"
+        begin chunk 1 2
+            begin tile
+
+            end
+
+            begin entity
+                begin tree
+                    position 6 8
+                end
+
+                begin tree
+                    position 6 9
+                end
+            end
+        end
+    end
+    begin level "suface"
+        begin chunk 1 2
+            begin tile
+
+            end
+
+            begin entity
+                begin tree
+                    position 6 8
+                end
+
+                begin tree
+                    position 6 9
+                end
+            end
+        end
+    end
+    begin level "cave"
+        begin chunk 1 2
+            begin tile
+
+            end
+
+            begin entity
+
+            end
+        end
+    end
+    begin level "deep_cave"
+        begin chunk 1 2
+            begin tile
+
+            end
+
+            begin entity
+
+            end
+        end
+    end
+    begin level "hell"
+        begin chunk 1 2
+            begin tile
+
+            end
+
+            begin entity
+
+            end
+        end
+    end
+    begin level "hellworld"
+        begin chunk 1 2
+            begin tile
+
+            end
+
+            begin entity
+
+            end
+        end
+    end
+end

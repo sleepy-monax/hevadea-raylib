@@ -4,15 +4,15 @@
 
 #include <hevadea/biome/biome.h>
 
-// static biome_t BIOME_MONTAIN = {
-//     .name = "montain",
-//
-//     .tile = &TILE_ROCK,
-//
-//     .temperature = -0.1,
-//     .elevation = 0.75,
-//     .moisture = 0,
-// };
+static biome_t BIOME_MONTAIN = {
+    .name = "montain",
+
+    .tile = &TILE_ROCK,
+
+    .temperature = -0.1,
+    .elevation = 0.75,
+    .moisture = 0,
+};
 
 static biome_t BIOME_TAIGA = {
     .name = "taiga",
@@ -97,7 +97,7 @@ static biome_t BIOME_BEACH = {
 static biome_t BIOME_STONE_BEACH = {
     .name = "stone_beach",
 
-    .tile = &TILE_ROCK,
+    .tile = &TILE_GRAVEL,
 
     .temperature = -0.5,
     .elevation = -0.15,
@@ -119,9 +119,29 @@ static biome_t BIOME_COLD_DEEP_SEA = {
 
     .tile = &TILE_DEEP_WATER,
 
-    .temperature = 0,
+    .temperature = -0.5,
     .elevation = -0.5,
     .moisture = 0,
+};
+
+static biome_t BIOME_WARM_SEA = {
+    .name = "warm_sea",
+
+    .tile = &TILE_WATER,
+
+    .temperature = 0.5,
+    .elevation = -0.2,
+    .moisture = -0.5,
+};
+
+static biome_t BIOME_WARM_DEEP_SEA = {
+    .name = "warm_deep_sea",
+
+    .tile = &TILE_DEEP_WATER,
+
+    .temperature = 0.5,
+    .elevation = -0.5,
+    .moisture = -0.5,
 };
 
 static biome_t BIOME_SEA = {
@@ -145,7 +165,7 @@ static biome_t BIOME_DEEP_SEA = {
 };
 
 static biome_t *biomes[] = {
-    //&BIOME_MONTAIN,
+    &BIOME_MONTAIN,
 
     &BIOME_TAIGA,
     &BIOME_FOREST,
@@ -164,6 +184,9 @@ static biome_t *biomes[] = {
 
     &BIOME_COLD_SEA,
     &BIOME_COLD_DEEP_SEA,
+
+    &BIOME_WARM_SEA,
+    &BIOME_WARM_DEEP_SEA,
     NULL,
 };
 

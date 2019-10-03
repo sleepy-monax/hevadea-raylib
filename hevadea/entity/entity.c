@@ -25,7 +25,7 @@ void entity_instances_grow(void)
 {
     if (entity_instances_allocated == 0)
     {
-        entity_instances_allocated = 1024;
+        entity_instances_allocated = 128;
         entity_instances = calloc(entity_instances_allocated, sizeof(entity_instance_t));
     }
     else
@@ -52,7 +52,7 @@ const entity_blueprint_t *entity_blueprint(const char *name)
     PANIC("Invalid blueprint name!");
 }
 
-entity_t entity_alloc(void)
+entity_t entity_create(const entity_blueprint_t *blueprint, position_t position)
 {
     if (entity_instances_allocated == entity_instances_used)
     {
@@ -65,10 +65,15 @@ entity_t entity_alloc(void)
 
         if (!instance->allocated)
         {
+            entity_instances_used++;
+
             memset(instance, 0, sizeof(entity_iterate_callback_t));
 
             instance->allocated = true;
-            entity_instances_used++;
+            instance->blueprint = blueprint;
+            instance->position = position;
+
+            blueprint->construct(instance);
 
             return i;
         }
@@ -77,32 +82,15 @@ entity_t entity_alloc(void)
     PANIC("Failled to allocate entity!");
 }
 
-void entity_free(entity_t entity)
+void entity_destroy(entity_t entity)
 {
     if (!entity_instances[entity].allocated)
     {
         PANIC("Free'ing unalocated entity!");
     }
 
-    entity_instances_used--;
     entity_instances[entity].allocated = false;
-}
-
-entity_t entity_create(const entity_blueprint_t *blueprint, position_t position)
-{
-    entity_t entity = entity_alloc();
-
-    E(entity)->blueprint = blueprint;
-    E(entity)->position = position;
-
-    blueprint->construct(E(entity));
-
-    return entity;
-}
-
-void entity_destroy(entity_t entity)
-{
-    entity_free(entity);
+    entity_instances_used--;
 }
 
 entity_instance_t *entity_instance(entity_t entity)

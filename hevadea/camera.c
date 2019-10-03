@@ -76,11 +76,7 @@ void camera_update(double deltatime)
     camera_zoom = fmax(camera_zoom, 4.0 / UNIT_PER_TILE);
     camera_zoom = fmin(camera_zoom, 1.0 * UNIT_PER_TILE);
 
-    camera_position_animated.X +=
-        (camera_position_focused.X - camera_position_animated.X) * deltatime * camera_zoom_animated;
-
-    camera_position_animated.Y +=
-        (camera_position_focused.Y - camera_position_animated.Y) * deltatime * camera_zoom_animated;
+    camera_position_animated = position_offset(camera_position_animated, vector_scale(position_sub(camera_position_focused, camera_position_animated), deltatime));
 
     camera_zoom_animated += 4 * (camera_zoom - camera_zoom_animated) * deltatime;
 }

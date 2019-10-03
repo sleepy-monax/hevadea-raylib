@@ -2,6 +2,7 @@
 #include <hevadea/biome/biome.h>
 #include <hevadea/generator.h>
 #include <hevadea/noise.h>
+#include <hevadea/logger.h>
 
 double generator_terrain_elevation(tile_position_t pos)
 {

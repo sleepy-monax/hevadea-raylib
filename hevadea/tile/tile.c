@@ -59,6 +59,12 @@ tile_blueprint_t TILE_DIRT = {
     .components = 0,
 };
 
+tile_blueprint_t TILE_GRAVEL = {
+    .name = "gravel",
+    .color = (color_t){125, 100, 125, 255},
+    .components = 0,
+};
+
 tile_blueprint_t TILE_ROCK = {
     .name = "rock",
     .color = (color_t){100, 100, 100, 255},
@@ -76,6 +82,7 @@ static tile_blueprint_t *blueprints[] = {
     &TILE_SNOW,
     &TILE_DIRT,
     &TILE_ROCK,
+    &TILE_GRAVEL,
     NULL,
 };
 

@@ -3,6 +3,7 @@
 #include <stdbool.h>
 
 #include <hevadea/constants.h>
+#include <hevadea/vector.h>
 
 typedef struct
 {
@@ -42,6 +43,10 @@ typedef struct
 DECL_POSITION_CONVERT_FUNCTION(position, tile_position)
 
 DECL_POSITION_CONVERT_FUNCTION(position, chunk_position)
+
+vector_t position_sub(position_t left, position_t right);
+
+position_t position_offset(position_t pos, vector_t vec);
 
 /* --- Tile Position -------------------------------------------------------- */
 
