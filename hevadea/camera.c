@@ -9,8 +9,8 @@
 static position_t camera_position_animated = {0};
 static position_t camera_position_focused = {0};
 
-static double camera_zoom_animated = 1.0;
-static double camera_zoom = 1.0;
+static double camera_zoom_animated = 4.0;
+static double camera_zoom = 4.0;
 
 position_t camera_get_position(void)
 {
@@ -73,10 +73,10 @@ void camera_update(double deltatime)
         camera_zoom /= 2;
     }
 
-    camera_zoom = fmax(camera_zoom, 4.0 / UNIT_PER_TILE);
+    camera_zoom = fmax(camera_zoom, 1.0);
     camera_zoom = fmin(camera_zoom, 1.0 * UNIT_PER_TILE);
 
-    camera_position_animated = position_offset(camera_position_animated, vector_scale(position_sub(camera_position_focused, camera_position_animated), deltatime));
+    camera_position_animated = position_offset(camera_position_animated, vector_scale(position_sub(camera_position_focused, camera_position_animated), deltatime * camera_zoom_animated));
 
     camera_zoom_animated += 4 * (camera_zoom - camera_zoom_animated) * deltatime;
 }
