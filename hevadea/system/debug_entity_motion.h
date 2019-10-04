@@ -29,7 +29,7 @@ static void system_debug_entity_motion_process(entity_t entity, double deltatime
 
 static system_t system_debug_entity_motion = {
     .name = "debug_entity_motion",
-    .type = SYSTEM_RENDER,
+    .type = SYSTEM_OVERLAY,
     .mask = COMPONENT_MOTION,
     .process = system_debug_entity_motion_process,
 };

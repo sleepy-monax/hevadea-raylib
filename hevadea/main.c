@@ -42,9 +42,12 @@ void game_draw(double deltatime)
 
         system_process(SYSTEM_RENDER, deltatime);
 
-        chunks_debug_draw();
-
-        camera_debug_draw();
+        if (IsKeyDown(KEY_F3))
+        {
+            system_process(SYSTEM_OVERLAY, deltatime);
+            chunks_debug_draw();
+            camera_debug_draw();
+        }
     }
     camera_render_end();
 

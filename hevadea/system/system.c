@@ -39,7 +39,6 @@ iterate_state_t system_process_callback(entity_t entity, system_process_callback
 
 void system_process(system_type_t type, double deltatime)
 {
-
     for (int i = 0; systems[i]; i++)
     {
         if (systems[i]->type == type)

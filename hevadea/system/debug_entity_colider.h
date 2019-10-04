@@ -34,7 +34,7 @@ static void system_debug_entity_colider_process(entity_t entity, double deltatim
 
 static system_t system_debug_entity_colider = {
     .name = "debug_entity_colider",
-    .type = SYSTEM_RENDER,
+    .type = SYSTEM_OVERLAY,
     .mask = COMPONENT_COLIDER,
     .process = system_debug_entity_colider_process,
 };

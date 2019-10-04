@@ -5,7 +5,8 @@
 typedef enum
 {
     SYSTEM_PROCESS,
-    SYSTEM_RENDER
+    SYSTEM_RENDER,
+    SYSTEM_OVERLAY
 } system_type_t;
 
 typedef void (*system_process_callback_t)(entity_t entity, double deltatime);
