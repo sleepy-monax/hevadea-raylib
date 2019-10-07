@@ -52,6 +52,8 @@ position_t position_offset(position_t pos, vector_t vec);
 
 DECL_POSITION_CONVERT_FUNCTION(tile_position, position)
 
+position_t tile_position_to_position_centered(tile_position_t pos);
+
 DECL_POSITION_CONVERT_FUNCTION(tile_position, chunk_position)
 
 /* --- Chunk Position ------------------------------------------------------- */

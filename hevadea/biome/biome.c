@@ -3,6 +3,8 @@
 #include <assert.h>
 
 #include <hevadea/biome/biome.h>
+#include <hevadea/entity/entity.h>
+#include <hevadea/noise.h>
 
 static biome_t BIOME_MONTAIN = {
     .name = "montain",
@@ -14,6 +16,14 @@ static biome_t BIOME_MONTAIN = {
     .moisture = 0,
 };
 
+static void taiga_decorate_callback(tile_position_t pos)
+{
+    if (noise(pos.X, pos.Y, 1) > 0.7)
+    {
+        entity_create(entity_blueprint("tree"), tile_position_to_position_centered(pos));
+    }
+}
+
 static biome_t BIOME_TAIGA = {
     .name = "taiga",
 
@@ -22,6 +32,8 @@ static biome_t BIOME_TAIGA = {
     .temperature = -0.5,
     .elevation = 0,
     .moisture = 0.5,
+
+    .decorate = taiga_decorate_callback,
 };
 
 static biome_t BIOME_FOREST = {
@@ -54,6 +66,26 @@ static biome_t BIOME_TUNDRA = {
     .moisture = 0,
 };
 
+static void plain_decorate_callback(tile_position_t pos)
+{
+    if (noise(pos.X, pos.Y, 1) > 0.9)
+    {
+        entity_create(entity_blueprint("grass_tall"), tile_position_to_position_centered(pos));
+    }
+    else if (noise(pos.X, pos.Y, 1) > 0.8)
+    {
+        entity_create(entity_blueprint("grass_medium"), tile_position_to_position_centered(pos));
+    }
+    else if (noise(pos.X, pos.Y, 1) > 0.7)
+    {
+        entity_create(entity_blueprint("grass_small"), tile_position_to_position_centered(pos));
+    }
+    else if (noise(pos.X, pos.Y, 2) > 0.9)
+    {
+        entity_create(entity_blueprint("flower"), tile_position_to_position_centered(pos));
+    }
+}
+
 static biome_t BIOME_PLAIN = {
     .name = "plain",
 
@@ -62,6 +94,8 @@ static biome_t BIOME_PLAIN = {
     .temperature = 0,
     .elevation = 0.01,
     .moisture = 0,
+
+    .decorate = plain_decorate_callback,
 };
 
 static biome_t BIOME_DESERT = {

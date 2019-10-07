@@ -32,6 +32,11 @@ position_t position_offset(position_t pos, vector_t vec)
 #define TILE_TO_POS(__v) (__v * UNIT_PER_TILE)
 DEFN_POSITION_CONVERT_FUNCTION(tile_position, position, TILE_TO_POS)
 
+position_t tile_position_to_position_centered(tile_position_t pos)
+{
+    return (position_t){(pos.X + 0.5) * UNIT_PER_TILE, (pos.Y + 0.5) * UNIT_PER_TILE};
+}
+
 #define TILE_TO_CHUNK(__v) floor(__v / (double)TILE_PER_CHUNK)
 DEFN_POSITION_CONVERT_FUNCTION(tile_position, chunk_position, TILE_TO_CHUNK)
 

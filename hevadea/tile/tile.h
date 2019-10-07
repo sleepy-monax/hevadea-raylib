@@ -38,8 +38,7 @@ extern tile_blueprint_t TILE_DIRT;
 extern tile_blueprint_t TILE_ROCK;
 extern tile_blueprint_t TILE_GRAVEL;
 
-tile_instance_t *
-tile_at(tile_position_t pos);
+tile_instance_t *tile_at(tile_position_t pos);
 
 bool tile_has_component(tile_instance_t *tile, tile_component_t mask);
 

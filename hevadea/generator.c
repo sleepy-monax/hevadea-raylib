@@ -40,6 +40,13 @@ void generator_terain(chunk_t *chunk)
             chunk->tiles[x][y].elevation = elevation;
             chunk->tiles[x][y].moisture = moisture;
             chunk->tiles[x][y].temperature = temperature;
+
+            tile_position_t decor_pos = (tile_position_t){x + chunk->position.X * TILE_PER_CHUNK, y + chunk->position.Y * TILE_PER_CHUNK};
+
+            if (biome->decorate)
+            {
+                biome->decorate(decor_pos);
+            }
         }
     }
 }
