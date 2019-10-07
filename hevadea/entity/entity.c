@@ -8,11 +8,20 @@
 #include <hevadea/entity/player.h>
 #include <hevadea/entity/rabbit.h>
 #include <hevadea/entity/tree.h>
+#include <hevadea/entity/grass_small.h>
+#include <hevadea/entity/grass_medium.h>
+#include <hevadea/entity/grass_tall.h>
+#include <hevadea/entity/flower.h>
 
 const entity_blueprint_t *blueprints[] = {
-    &entity_PLAYER,
-    &entity_TREE,
-    &entity_RABBIT,
+    &ENTITY_PLAYER,
+    &ENTITY_TREE,
+    &ENTITY_RABBIT,
+    &ENTITY_FLOWER,
+    &ENTITY_GRASS_SMALL,
+    &ENTITY_GRASS_MEDIUM,
+    &ENTITY_GRASS_TALL,
+
     NULL,
 };
 
@@ -34,6 +43,11 @@ void entity_instances_grow(void)
         entity_instances = realloc(entity_instances, new_allocated * sizeof(entity_instance_t));
 
         log_info("Expended the entity instance array from %d to %d at %08x", entity_instances_allocated, new_allocated, entity_instances);
+
+        for (size_t i = entity_instances_allocated + 1; i < new_allocated; i++)
+        {
+            entity_instances[i].allocated = false;
+        }
 
         entity_instances_allocated = new_allocated;
     }
@@ -73,7 +87,14 @@ entity_t entity_create(const entity_blueprint_t *blueprint, position_t position)
             instance->blueprint = blueprint;
             instance->position = position;
 
-            blueprint->construct(instance);
+            if (blueprint->create)
+            {
+                blueprint->create(instance);
+            }
+            else
+            {
+                log_warn("No construct for entity %s", blueprint->name);
+            }
 
             return i;
         }
@@ -86,7 +107,18 @@ void entity_destroy(entity_t entity)
 {
     if (!entity_instances[entity].allocated)
     {
-        PANIC("Free'ing unalocated entity!");
+        PANIC("Free'ing an unalocated entity!");
+    }
+
+    entity_blueprint_t *blueprint = entity_instances[entity].blueprint;
+
+    if (blueprint->destroy)
+    {
+        blueprint->destroy(&entity_instances[entity]);
+    }
+    else
+    {
+        log_warn("No destructor for entity %s", blueprint->name);
     }
 
     entity_instances[entity].allocated = false;

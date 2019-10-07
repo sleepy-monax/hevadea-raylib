@@ -16,6 +16,11 @@ vector_t vector_scale(vector_t vec, double scale)
     return (vector_t){vec.X * scale, vec.Y * scale};
 }
 
+vector_t vector_reverse(vector_t vec)
+{
+    return (vector_t){-vec.X, -vec.Y};
+}
+
 double vector_lenght(vector_t vec)
 {
     return sqrt(vec.X * vec.X + vec.Y * vec.Y);

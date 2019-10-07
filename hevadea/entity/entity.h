@@ -1,18 +1,24 @@
 #pragma once
 
+#include <limits.h>
+
 #include <hevadea/position.h>
 #include <hevadea/utils.h>
 #include <hevadea/vector.h>
 #include <hevadea/rectangle.h>
+#include <hevadea/sprites.h>
 
 typedef enum
 {
     COMPONENT_PLAYER = 1 << 0,
     COMPONENT_MOTION = 1 << 1,
     COMPONENT_COLIDER = 1 << 2,
+    COMPONENT_SPRITE = 1 << 3,
 
     __COMPONENT_COUNT,
 } entity_component_t;
+
+_Static_assert(__COMPONENT_COUNT <= (sizeof(int) * CHAR_BIT));
 
 struct entity_blueprint_t;
 
@@ -26,15 +32,21 @@ typedef struct
     rectangle_t colider;
     double lifetime;
 
+    vector_t sprite_origine;
+    sprite_t sprite;
+
     const struct entity_blueprint_t *blueprint;
 } entity_instance_t;
 
-typedef void (*entity_blueprint_construct_callback_t)(entity_instance_t *instance);
+typedef void (*entity_blueprint_create_callback_t)(entity_instance_t *instance);
+typedef void (*entity_blueprint_destroy_callback_t)(entity_instance_t *instance);
 
 typedef struct entity_blueprint_t
 {
     const char *name;
-    entity_blueprint_construct_callback_t construct;
+
+    entity_blueprint_create_callback_t create;
+    entity_blueprint_destroy_callback_t destroy;
 } entity_blueprint_t;
 
 typedef unsigned int entity_t;

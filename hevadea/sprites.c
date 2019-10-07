@@ -1,5 +1,6 @@
 #include <hevadea/sprites.h>
 #include <hevadea/logger.h>
+#include <hevadea/color.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -24,9 +25,11 @@ void loading_screen(const char *message, double progress)
 
 typedef struct
 {
+    // FIXME: only use for packing the sprites on the atlas...
     bool packed;
-    const char *name;
     Image image;
+
+    const char *name;
     rectangle_t rect;
 } sprite_instance_t;
 
@@ -72,11 +75,6 @@ void spites_load_sprite(const char *path, const char *name)
     {
         sprites_grow_array();
     }
-
-    log_trace("Loading sprite(%s) from %s", name, path);
-    char buffer[1024];
-    sprintf(buffer, "Loading %s from %s...", name, path);
-    loading_screen(buffer, 0.0);
 
     sprites_instances[sprites_count].packed = false;
     sprites_instances[sprites_count].name = name;
@@ -209,4 +207,28 @@ void sprites_load(void)
 
 void sprites_unload(void)
 {
+}
+
+sprite_t sprites_by_name(const char *name)
+{
+    for (size_t i = 0; i < sprites_count; i++)
+    {
+        if (strcmp(name, sprites_instances[i].name) == 0)
+        {
+            return (sprite_t){sprites_instances[i].rect};
+        }
+    }
+
+    // FIXME: Stackoverflow if there is no "none" sprite
+    return sprites_by_name("none");
+}
+
+void sprite_draw(sprite_t sprite, position_t position, color_t color)
+{
+    DrawTexturePro(sprites_atlas,
+                   (Rectangle){sprite.rect.X, sprite.rect.Y, sprite.rect.W, sprite.rect.H},
+                   (Rectangle){position.X, position.Y, sprite.rect.W, sprite.rect.H},
+                   (Vector2){0, 0},
+                   0,
+                   (Color){color.R, color.G, color.B, color.A});
 }
