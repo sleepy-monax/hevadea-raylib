@@ -5,7 +5,10 @@
 
 typedef struct
 {
-    rectangle_t rect;
+    double X;
+    double Y;
+    double Width;
+    double Height;
 } sprite_t;
 
 void sprites_load(void);

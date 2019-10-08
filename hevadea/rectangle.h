@@ -7,8 +7,8 @@ typedef struct
 {
     double X;
     double Y;
-    double W;
-    double H;
+    double Width;
+    double Height;
 } rectangle_t;
 
 bool rectangle_contain_position(rectangle_t rect, position_t pos);

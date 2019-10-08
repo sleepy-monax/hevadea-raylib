@@ -170,8 +170,8 @@ rectangle_t entity_get_bound(entity_t entity)
         return (rectangle_t){
             E(entity)->position.X + E(entity)->colider.X,
             E(entity)->position.Y + E(entity)->colider.Y,
-            E(entity)->colider.W,
-            E(entity)->colider.H,
+            E(entity)->colider.Width,
+            E(entity)->colider.Height,
         };
     }
     else
@@ -185,10 +185,10 @@ bool entity_colide_with(entity_t entity, rectangle_t bound)
     rectangle_t a = entity_get_bound(entity);
     rectangle_t b = bound;
 
-    return a.X < b.X + b.W &&
-           a.X + a.W > b.X &&
-           a.Y < b.Y + b.H &&
-           a.Y + a.H > b.Y;
+    return a.X < b.X + b.Width &&
+           a.X + a.Width > b.X &&
+           a.Y < b.Y + b.Height &&
+           a.Y + a.Height > b.Y;
 }
 
 chunk_position_t entity_get_chunk(entity_t entity)

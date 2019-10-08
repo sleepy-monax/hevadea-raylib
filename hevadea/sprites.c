@@ -79,8 +79,8 @@ void spites_load_sprite(const char *path, const char *name)
     sprites_instances[sprites_count].packed = false;
     sprites_instances[sprites_count].name = name;
     sprites_instances[sprites_count].image = LoadImage(path);
-    sprites_instances[sprites_count].rect.W = sprites_instances[sprites_count].image.width;
-    sprites_instances[sprites_count].rect.H = sprites_instances[sprites_count].image.height;
+    sprites_instances[sprites_count].rect.Width = sprites_instances[sprites_count].image.width;
+    sprites_instances[sprites_count].rect.Height = sprites_instances[sprites_count].image.height;
 
     sprites_count++;
 }
@@ -134,8 +134,8 @@ sprite_instance_t *sprite_to_pack(position_t pos, unsigned int atlas_size)
         sprite_instance_t *sprite = &sprites_instances[i];
 
         if (!sprite->packed &&
-            (pos.X + sprite->rect.W < atlas_size) &&
-            (pos.Y + sprite->rect.H < atlas_size))
+            (pos.X + sprite->rect.Width < atlas_size) &&
+            (pos.Y + sprite->rect.Height < atlas_size))
         {
             return sprite;
         }
@@ -182,17 +182,17 @@ void sprites_load(void)
 
                         ImageDraw(&atlas,
                                   spr_to_pack->image,
-                                  (Rectangle){0, 0, spr_to_pack->rect.W, spr_to_pack->rect.H},
-                                  (Rectangle){spr_to_pack->rect.X, spr_to_pack->rect.Y, spr_to_pack->rect.W, spr_to_pack->rect.H},
+                                  (Rectangle){0, 0, spr_to_pack->rect.Width, spr_to_pack->rect.Height},
+                                  (Rectangle){spr_to_pack->rect.X, spr_to_pack->rect.Y, spr_to_pack->rect.Width, spr_to_pack->rect.Height},
                                   WHITE);
 
                         sprites_packed_count++;
 
-                        x += spr_to_pack->rect.W;
+                        x += spr_to_pack->rect.Width;
                     }
                     else if (spr_at != NULL)
                     {
-                        x += spr_at->rect.W;
+                        x += spr_at->rect.Width;
                     }
                 }
             }
@@ -215,7 +215,12 @@ sprite_t sprites_by_name(const char *name)
     {
         if (strcmp(name, sprites_instances[i].name) == 0)
         {
-            return (sprite_t){sprites_instances[i].rect};
+            return (sprite_t){
+                sprites_instances[i].rect.X,
+                sprites_instances[i].rect.Y,
+                sprites_instances[i].rect.Width,
+                sprites_instances[i].rect.Height,
+            };
         }
     }
 
@@ -226,8 +231,8 @@ sprite_t sprites_by_name(const char *name)
 void sprite_draw(sprite_t sprite, position_t position, color_t color)
 {
     DrawTexturePro(sprites_atlas,
-                   (Rectangle){sprite.rect.X, sprite.rect.Y, sprite.rect.W, sprite.rect.H},
-                   (Rectangle){position.X, position.Y, sprite.rect.W, sprite.rect.H},
+                   (Rectangle){sprite.X, sprite.Y, sprite.Width, sprite.Height},
+                   (Rectangle){position.X, position.Y, sprite.Width, sprite.Height},
                    (Vector2){0, 0},
                    0,
                    (Color){color.R, color.G, color.B, color.A});

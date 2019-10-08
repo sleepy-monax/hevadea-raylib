@@ -88,8 +88,8 @@ rectangle_t camera_load_bound(void)
     bound.X = camera_position_focused.X - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
     bound.Y = camera_position_focused.Y - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
 
-    bound.W = 2 * (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
-    bound.H = 2 * (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.Width = 2 * (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.Height = 2 * (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
 
     return bound;
 }
@@ -101,8 +101,8 @@ rectangle_t camera_unload_bound(void)
     bound.X = camera_position_focused.X - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
     bound.Y = camera_position_focused.Y - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
 
-    bound.W = 2 * (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
-    bound.H = 2 * (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.Width = 2 * (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.Height = 2 * (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
 
     return bound;
 }
@@ -114,8 +114,8 @@ rectangle_t camera_screen_bound(void)
     bound.X = camera_position_animated.X - ((GetScreenWidth() / 2) / camera_zoom_animated);
     bound.Y = camera_position_animated.Y - ((GetScreenHeight() / 2) / camera_zoom_animated);
 
-    bound.W = GetScreenWidth() / camera_zoom_animated;
-    bound.H = GetScreenHeight() / camera_zoom_animated;
+    bound.Width = GetScreenWidth() / camera_zoom_animated;
+    bound.Height = GetScreenHeight() / camera_zoom_animated;
 
     return bound;
 }

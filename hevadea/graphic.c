@@ -22,6 +22,6 @@ void graphic_fill_rectangle(rectangle_t rect, color_t color)
 {
     DrawRectangleV(
         (Vector2){rect.X, rect.Y},
-        (Vector2){rect.W, rect.H},
+        (Vector2){rect.Width, rect.Height},
         (Color){color.R, color.G, color.B, color.A});
 }
