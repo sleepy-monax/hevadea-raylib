@@ -26,7 +26,7 @@ static system_t *systems[] = {
 typedef struct
 {
     system_t *sys;
-    double deltatime;
+    gametime_t gametime;
 } system_process_callback_args_t;
 
 iterate_state_t system_process_callback(entity_t entity, system_process_callback_args_t *args)
@@ -35,13 +35,13 @@ iterate_state_t system_process_callback(entity_t entity, system_process_callback
 
     if (is_entity_processable)
     {
-        args->sys->process(entity, 1 / 60.0);
+        args->sys->process(entity, args->gametime);
     }
 
     return ITERATION_CONTINUE;
 }
 
-void system_process(system_type_t type, double deltatime)
+void system_process(system_type_t type, gametime_t gametime)
 {
     for (int i = 0; systems[i]; i++)
     {
@@ -50,7 +50,7 @@ void system_process(system_type_t type, double deltatime)
             system_process_callback_args_t args;
 
             args.sys = systems[i];
-            args.deltatime = deltatime;
+            args.gametime = gametime;
 
             entity_iterate_all((entity_iterate_callback_t)system_process_callback, &args);
         }

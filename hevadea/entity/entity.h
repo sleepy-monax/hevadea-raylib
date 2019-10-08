@@ -19,7 +19,7 @@ typedef enum
     __COMPONENT_COUNT,
 } entity_component_t;
 
-_Static_assert(__COMPONENT_COUNT <= (sizeof(int) * CHAR_BIT));
+_Static_assert(__COMPONENT_COUNT <= INT_MAX);
 
 struct entity_blueprint_t;
 

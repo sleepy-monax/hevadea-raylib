@@ -4,9 +4,9 @@
 #include <hevadea/tile/tile.h>
 #include <hevadea/graphic.h>
 
-static void system_debug_entity_colider_process(entity_t entity, double deltatime)
+static void system_debug_entity_colider_process(entity_t entity, gametime_t gametime)
 {
-    (void)deltatime;
+    (void)gametime;
 
     if (entity_has_component(entity, COMPONENT_MOTION))
     {

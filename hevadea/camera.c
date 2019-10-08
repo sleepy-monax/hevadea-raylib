@@ -62,7 +62,7 @@ void camera_debug_draw(void)
     graphic_draw_line((vector_t){0, -1000000}, (vector_t){0, 1000000}, COLOR_GREEN);
 }
 
-void camera_update(double deltatime)
+void camera_update(gametime_t gametime)
 {
     if (IsKeyPressed(KEY_UP))
     {
@@ -76,9 +76,9 @@ void camera_update(double deltatime)
     camera_zoom = fmax(camera_zoom, 1.0);
     camera_zoom = fmin(camera_zoom, 1.0 * UNIT_PER_TILE);
 
-    camera_position_animated = position_offset(camera_position_animated, vector_scale(position_sub(camera_position_focused, camera_position_animated), deltatime * camera_zoom_animated));
+    camera_position_animated = position_offset(camera_position_animated, vector_scale(position_sub(camera_position_focused, camera_position_animated), gametime.deltatime * camera_zoom_animated));
 
-    camera_zoom_animated += 4 * (camera_zoom - camera_zoom_animated) * deltatime;
+    camera_zoom_animated += 4 * (camera_zoom - camera_zoom_animated) * gametime.deltatime;
 }
 
 rectangle_t camera_load_bound(void)

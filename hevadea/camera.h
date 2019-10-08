@@ -3,6 +3,7 @@
 #include <hevadea/position.h>
 #include <hevadea/rectangle.h>
 #include <hevadea/chunk.h>
+#include <hevadea/gametime.h>
 
 position_t camera_get_position(void);
 
@@ -14,7 +15,7 @@ void camera_render_begin(void);
 
 void camera_render_end(void);
 
-void camera_update(double deltatime);
+void camera_update(gametime_t gametime);
 
 void camera_debug_draw(void);
 

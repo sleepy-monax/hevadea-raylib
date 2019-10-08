@@ -3,11 +3,19 @@
 #include <hevadea/system/system.h>
 #include <hevadea/sprites.h>
 
-static void system_entity_sprite_animated_process(entity_t entity, double deltatime)
-{
-    (void)deltatime;
+static const int FRAMES[] = {0, 2, 1, 2};
 
-    sprite_t current_sprite = sprite_subsprite(E(entity)->sprite, 3, 4, 2, E(entity)->facing);
+static void system_entity_sprite_animated_process(entity_t entity, gametime_t gametime)
+{
+    (void)gametime;
+
+    int frame = 2;
+
+    if (entity_is_moving(entity))
+    {
+        frame = FRAMES[(int)(4 * gametime.totaltime) % 4];
+    }
+    sprite_t current_sprite = sprite_subsprite(E(entity)->sprite, 3, 4, frame, E(entity)->facing);
 
     sprite_draw(current_sprite, position_offset(E(entity)->position, vector_reverse(E(entity)->sprite_origine)), COLOR_WHITE);
 }

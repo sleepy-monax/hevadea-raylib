@@ -16,9 +16,9 @@ static const int WINDOW_HEIGHT = 600;
 static const int WINDOW_WIDTH = 800;
 static const int WINDOW_FPS = 60;
 
-void game_update(double deltatime)
+void game_update(gametime_t gametime)
 {
-    camera_update(deltatime);
+    camera_update(gametime);
 
     chunkloader_shedule();
 
@@ -28,10 +28,10 @@ void game_update(double deltatime)
         chunkloader_unload_chunks();
     }
 
-    system_process(SYSTEM_PROCESS, deltatime);
+    system_process(SYSTEM_PROCESS, gametime);
 }
 
-void game_draw(double deltatime)
+void game_draw(gametime_t gametime)
 {
     BeginDrawing();
     ClearBackground(BLUE);
@@ -40,11 +40,11 @@ void game_draw(double deltatime)
     {
         chunk_render_terrain();
 
-        system_process(SYSTEM_RENDER, deltatime);
+        system_process(SYSTEM_RENDER, gametime);
 
         if (IsKeyDown(KEY_F3))
         {
-            system_process(SYSTEM_OVERLAY, deltatime);
+            system_process(SYSTEM_OVERLAY, gametime);
             chunks_debug_draw();
             camera_debug_draw();
         }
@@ -71,10 +71,13 @@ void game_loop(void)
 
     while (!WindowShouldClose())
     {
-        double deltatime = GetFrameTime();
+        gametime_t gametime = {
+            .totaltime = GetTime(),
+            .deltatime = GetFrameTime(),
+        };
 
-        game_update(deltatime);
-        game_draw(deltatime);
+        game_update(gametime);
+        game_draw(gametime);
     }
 }
 

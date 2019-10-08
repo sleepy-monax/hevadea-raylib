@@ -7,9 +7,9 @@
 #define PLAYER_MOVE_SPEED 3
 #define PLAYER_RUN_SPEED 128
 
-static void system_player_input_process(entity_t player, double deltatime)
+static void system_player_input_process(entity_t player, gametime_t gametime)
 {
-    (void)deltatime;
+    (void)gametime;
 
     vector_t motion = (vector_t){0, 0};
     direction_t facing = E(player)->facing;

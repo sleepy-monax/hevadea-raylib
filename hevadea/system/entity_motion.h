@@ -45,9 +45,9 @@ static vector_t system_entity_motion_check_with_tile(entity_t entity, vector_t m
     return motion;
 }
 
-static void system_entity_motion_process(entity_t entity, double deltatime)
+static void system_entity_motion_process(entity_t entity, gametime_t gametime)
 {
-    vector_t motion = vector_scale(E(entity)->motion, deltatime * UNIT_PER_TILE);
+    vector_t motion = vector_scale(E(entity)->motion, gametime.deltatime * UNIT_PER_TILE);
 
     if (entity_has_component(entity, COMPONENT_COLIDER))
     {

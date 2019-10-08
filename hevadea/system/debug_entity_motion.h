@@ -5,9 +5,9 @@
 #include <hevadea/system/system.h>
 #include <hevadea/graphic.h>
 
-static void system_debug_entity_motion_process(entity_t entity, double deltatime)
+static void system_debug_entity_motion_process(entity_t entity, gametime_t gametime)
 {
-    (void)deltatime;
+    (void)gametime;
 
     if (E(entity)->motion.X == 0 && E(entity)->motion.Y == 0)
     {

@@ -3,9 +3,9 @@
 #include <hevadea/system/system.h>
 #include <hevadea/sprites.h>
 
-static void system_entity_sprite_process(entity_t entity, double deltatime)
+static void system_entity_sprite_process(entity_t entity, gametime_t gametime)
 {
-    (void)deltatime;
+    (void)gametime;
 
     sprite_draw(E(entity)->sprite, position_offset(E(entity)->position, vector_reverse(E(entity)->sprite_origine)), COLOR_WHITE);
 }

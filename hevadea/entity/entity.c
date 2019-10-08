@@ -86,6 +86,7 @@ entity_t entity_create(const entity_blueprint_t *blueprint, position_t position)
             instance->allocated = true;
             instance->blueprint = blueprint;
             instance->position = position;
+            instance->facing = DIRECTION_SOUTH;
 
             if (blueprint->create)
             {
@@ -116,10 +117,10 @@ void entity_destroy(entity_t entity)
     {
         blueprint->destroy(&entity_instances[entity]);
     }
-    else
-    {
-        log_warn("No destructor for entity %s", blueprint->name);
-    }
+    // else
+    // {
+    //     log_warn("No destructor for entity %s", blueprint->name);
+    // }
 
     entity_instances[entity].allocated = false;
     entity_instances_used--;
@@ -161,6 +162,11 @@ void entity_iterate_all(entity_iterate_callback_t callback, void *arg)
 bool entity_has_component(entity_t entity, entity_component_t mask)
 {
     return (E(entity)->components & mask) == mask;
+}
+
+bool entity_is_moving(entity_t entity)
+{
+    return E(entity)->motion.X != 0 || E(entity)->motion.Y != 0;
 }
 
 rectangle_t entity_get_bound(entity_t entity)
