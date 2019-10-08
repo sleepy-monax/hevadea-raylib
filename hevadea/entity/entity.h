@@ -7,6 +7,7 @@
 #include <hevadea/vector.h>
 #include <hevadea/rectangle.h>
 #include <hevadea/sprites.h>
+#include <hevadea/direction.h>
 
 typedef enum
 {
@@ -77,3 +78,5 @@ bool entity_has_component(entity_t entity, entity_component_t mask);
 rectangle_t entity_get_bound(entity_t entity);
 
 chunk_position_t entity_get_chunk(entity_t entity);
+
+bool entity_is_moving(entity_t entity);
