@@ -12,18 +12,31 @@ static void system_player_input_process(entity_t player, double deltatime)
     (void)deltatime;
 
     vector_t motion = (vector_t){0, 0};
+    direction_t facing = E(player)->facing;
 
     if (IsKeyDown(KEY_W))
+    {
         motion.Y -= 1;
+        facing = DIRECTION_NORTH;
+    }
 
     if (IsKeyDown(KEY_S))
+    {
         motion.Y += 1;
+        facing = DIRECTION_SOUTH;
+    }
 
     if (IsKeyDown(KEY_A))
+    {
         motion.X -= 1;
+        facing = DIRECTION_WEST;
+    }
 
     if (IsKeyDown(KEY_D))
+    {
         motion.X += 1;
+        facing = DIRECTION_EAST;
+    }
 
     if (vector_lenght(motion) > 0.1)
     {
@@ -39,6 +52,7 @@ static void system_player_input_process(entity_t player, double deltatime)
         }
     }
 
+    E(player)->facing = facing;
     E(player)->motion = motion;
 }
 

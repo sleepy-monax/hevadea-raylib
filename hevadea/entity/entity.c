@@ -110,7 +110,7 @@ void entity_destroy(entity_t entity)
         PANIC("Free'ing an unalocated entity!");
     }
 
-    entity_blueprint_t *blueprint = entity_instances[entity].blueprint;
+    const entity_blueprint_t *blueprint = entity_instances[entity].blueprint;
 
     if (blueprint->destroy)
     {

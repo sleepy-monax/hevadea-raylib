@@ -10,11 +10,13 @@
 #include <hevadea/system/entity_motion.h>
 #include <hevadea/system/player_input.h>
 #include <hevadea/system/entity_sprite.h>
+#include <hevadea/system/entity_sprite_animated.h>
 
 static system_t *systems[] = {
     &system_player_input,
     &system_entity_motion,
     &system_entity_sprite,
+    &system_entity_sprite_animated,
 
     &system_debug_entity_motion,
     &system_debug_entity_colider,

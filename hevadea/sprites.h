@@ -18,3 +18,5 @@ void sprites_unload(void);
 sprite_t sprites_by_name(const char *name);
 
 void sprite_draw(sprite_t sprite, position_t position, color_t color);
+
+sprite_t sprite_subsprite(sprite_t sprite, int split_x, int split_y, int x, int y);

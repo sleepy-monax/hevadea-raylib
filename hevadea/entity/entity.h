@@ -14,6 +14,7 @@ typedef enum
     COMPONENT_MOTION = 1 << 1,
     COMPONENT_COLIDER = 1 << 2,
     COMPONENT_SPRITE = 1 << 3,
+    COMPONENT_SPRITE_ANIMATED = 1 << 4,
 
     __COMPONENT_COUNT,
 } entity_component_t;
@@ -25,17 +26,17 @@ struct entity_blueprint_t;
 typedef struct
 {
     bool allocated;
-
     int components;
+    const struct entity_blueprint_t *blueprint;
+
     position_t position;
     vector_t motion;
+    direction_t facing;
     rectangle_t colider;
     double lifetime;
 
-    vector_t sprite_origine;
     sprite_t sprite;
-
-    const struct entity_blueprint_t *blueprint;
+    vector_t sprite_origine;
 } entity_instance_t;
 
 typedef void (*entity_blueprint_create_callback_t)(entity_instance_t *instance);
