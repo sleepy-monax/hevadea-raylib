@@ -2,12 +2,11 @@
 #include <math.h>
 
 #include <hevadea/camera.h>
-#include <hevadea/sprites.h>
+#include <hevadea/atlas.h>
 #include <hevadea/chunk.h>
 #include <hevadea/chunkloader.h>
 #include <hevadea/system/system.h>
 #include <hevadea/logger.h>
-#include <hevadea/gui.h>
 
 // #include <hevadea/biome/biome.h>
 
@@ -86,15 +85,18 @@ int main(void)
     log_info("Intializing raylib...");
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
 
-    sprites_load();
+    atlas_load();
 
     SetTargetFPS(WINDOW_FPS);
 
     log_info("Entering gameloop...");
     game_loop();
 
+    atlas_unload();
+    
     log_info("Closing window...");
     CloseWindow();
+
 
     log_info("Goodbye");
 }

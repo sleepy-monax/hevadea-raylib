@@ -1,7 +1,7 @@
 #pragma once
 
 #include <hevadea/system/system.h>
-#include <hevadea/sprites.h>
+#include <hevadea/sprite.h>
 
 static const int FRAMES[] = {0, 2, 1, 2};
 
@@ -17,7 +17,10 @@ static void system_entity_sprite_animated_process(entity_t entity, gametime_t ga
     }
     sprite_t current_sprite = sprite_subsprite(E(entity)->sprite, 3, 4, frame, E(entity)->facing);
 
-    sprite_draw(current_sprite, position_offset(E(entity)->position, vector_reverse(E(entity)->sprite_origine)), COLOR_WHITE);
+    graphic_draw_sprite(
+        current_sprite,
+        vector_add(position_to_vector(E(entity)->position), vector_reverse(E(entity)->sprite_origine)),
+        COLOR_WHITE);
 }
 
 static system_t system_entity_sprite_animated = {

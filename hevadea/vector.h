@@ -17,3 +17,5 @@ vector_t vector_reverse(vector_t vec);
 double vector_lenght(vector_t vec);
 
 vector_t vector_normalized(vector_t vec);
+
+vector_t vector_add(vector_t left, vector_t right);

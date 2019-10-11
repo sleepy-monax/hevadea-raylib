@@ -4,10 +4,10 @@
 
 typedef struct
 {
-    uint8_t R;
-    uint8_t G;
-    uint8_t B;
-    uint8_t A;
+    uint8_t red;
+    uint8_t green;
+    uint8_t blue;
+    uint8_t alpha;
 } color_t;
 
 #define RGB(__r, __g, __b) \

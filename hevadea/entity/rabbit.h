@@ -1,6 +1,7 @@
 #pragma once
 
 #include <hevadea/entity/entity.h>
+#include <hevadea/atlas.h>
 
 void rabbit_entity_create(entity_instance_t *instance)
 {

@@ -21,6 +21,11 @@ vector_t vector_reverse(vector_t vec)
     return (vector_t){-vec.X, -vec.Y};
 }
 
+vector_t vector_add(vector_t left, vector_t right)
+{
+    return (vector_t){left.X + right.X, left.Y + right.Y};
+}
+
 double vector_lenght(vector_t vec)
 {
     return sqrt(vec.X * vec.X + vec.Y * vec.Y);

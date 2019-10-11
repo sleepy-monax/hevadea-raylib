@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include <hevadea/entity/entity.h>
 #include <hevadea/system/system.h>
@@ -106,10 +107,7 @@ entity_t entity_create(const entity_blueprint_t *blueprint, position_t position)
 
 void entity_destroy(entity_t entity)
 {
-    if (!entity_instances[entity].allocated)
-    {
-        PANIC("Free'ing an unalocated entity!");
-    }
+    assert(entity_instances[entity].allocated);
 
     const entity_blueprint_t *blueprint = entity_instances[entity].blueprint;
 
@@ -117,10 +115,6 @@ void entity_destroy(entity_t entity)
     {
         blueprint->destroy(&entity_instances[entity]);
     }
-    // else
-    // {
-    //     log_warn("No destructor for entity %s", blueprint->name);
-    // }
 
     entity_instances[entity].allocated = false;
     entity_instances_used--;
@@ -133,12 +127,9 @@ entity_instance_t *entity_instance(entity_t entity)
 
     entity_instance_t *instance = &entity_instances[entity];
 
-    if (instance->allocated)
-    {
-        return instance;
-    }
+    assert(instance->allocated);
 
-    PANIC("Entity is not allocated!");
+    return instance;
 }
 
 /* --- Entity iterator ----------------------------------------------------- */

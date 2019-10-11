@@ -22,6 +22,11 @@ vector_t position_sub(position_t left, position_t right)
     return (vector_t){left.X - right.X, left.Y - right.Y};
 }
 
+vector_t position_to_vector(position_t pos)
+{
+    return (vector_t){pos.X, pos.Y};
+}
+
 position_t position_offset(position_t pos, vector_t vec)
 {
     return (position_t){pos.X + vec.X, pos.Y + vec.Y};

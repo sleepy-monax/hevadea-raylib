@@ -84,6 +84,10 @@ static void plain_decorate_callback(tile_position_t pos)
     {
         entity_create(entity_blueprint("flower"), tile_position_to_position_centered(pos));
     }
+    else if (noise(pos.X, pos.Y, 2) > 0.95)
+    {
+        entity_create(entity_blueprint("rabbit"), tile_position_to_position_centered(pos));
+    }
 }
 
 static biome_t BIOME_PLAIN = {
