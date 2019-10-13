@@ -41,3 +41,26 @@ vector_t vector_normalized(vector_t vec)
 
     return result;
 }
+
+direction_t vector_to_direction(vector_t vec)
+{
+    if (vec.X < -0.5)
+    {
+        return DIRECTION_WEST;
+    }
+    else if (vec.X > 0.5)
+    {
+        return DIRECTION_EAST;
+    }
+
+    if (vec.Y < 0)
+    {
+        return DIRECTION_NORTH;
+    }
+    else if (vec.Y > 0)
+    {
+        return DIRECTION_SOUTH;
+    }
+
+    return DIRECTION_SOUTH;
+}

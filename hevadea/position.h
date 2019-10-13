@@ -38,6 +38,8 @@ vector_t position_to_vector(position_t pos);
 
 position_t position_offset(position_t pos, vector_t vec);
 
+vector_t position_vector_to(position_t from, position_t to);
+
 /* --- Tile Position -------------------------------------------------------- */
 
 DECL_POSITION_CONVERT_FUNCTION(tile_position, position)

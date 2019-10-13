@@ -69,7 +69,8 @@ const entity_blueprint_t *entity_blueprint(const char *name)
 
 entity_t entity_create(const entity_blueprint_t *blueprint, position_t position)
 {
-    if (entity_instances_allocated == entity_instances_used)
+    if (entity_instances_used + 1 == entity_instances_allocated ||
+        entity_instances_allocated == 0)
     {
         entity_instances_grow();
     }
@@ -81,7 +82,6 @@ entity_t entity_create(const entity_blueprint_t *blueprint, position_t position)
         if (!instance->allocated)
         {
             entity_instances_used++;
-
             memset(instance, 0, sizeof(entity_iterate_callback_t));
 
             instance->allocated = true;
@@ -102,6 +102,7 @@ entity_t entity_create(const entity_blueprint_t *blueprint, position_t position)
         }
     }
 
+    log_fatal("Failled to allocated entity %d/%d", entity_instances_allocated, entity_instances_allocated);
     PANIC("Failled to allocate entity!");
 }
 

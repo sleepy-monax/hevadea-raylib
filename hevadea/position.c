@@ -32,6 +32,11 @@ position_t position_offset(position_t pos, vector_t vec)
     return (position_t){pos.X + vec.X, pos.Y + vec.Y};
 }
 
+vector_t position_vector_to(position_t from, position_t to)
+{
+    return vector_normalized((vector_t){to.X - from.X, to.Y - from.Y});
+}
+
 /* --- Tile Position -------------------------------------------------------- */
 
 #define TILE_TO_POS(__v) (__v * UNIT_PER_TILE)

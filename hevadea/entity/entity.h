@@ -16,6 +16,8 @@ typedef enum
     COMPONENT_COLIDER = 1 << 2,
     COMPONENT_SPRITE = 1 << 3,
     COMPONENT_SPRITE_ANIMATED = 1 << 4,
+    COMPONENT_PATHFINDING = 1 << 5,
+    COMPONENT_WANDERING = 1 << 6,
 
     __COMPONENT_COUNT,
 } entity_component_t;
@@ -38,6 +40,12 @@ typedef struct
 
     sprite_t sprite;
     vector_t sprite_origine;
+
+    double wandering_timer;
+
+    bool pathfinding_should_move;
+    double pathfinding_move_speed;
+    position_t pathfinding_destination;
 } entity_instance_t;
 
 typedef void (*entity_blueprint_create_callback_t)(entity_instance_t *instance);
