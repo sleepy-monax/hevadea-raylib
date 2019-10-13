@@ -19,10 +19,6 @@ typedef struct
 
 typedef struct
 {
-    double temperature;
-    double elevation;
-    double moisture;
-
     tile_blueprint_t *blueprint;
 } tile_instance_t;
 

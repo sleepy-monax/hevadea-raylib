@@ -23,18 +23,6 @@ typedef struct
     int Y;
 } chunk_position_t;
 
-#define POS_ADD(__type, __a, __b)            \
-    (__type)                                 \
-    {                                        \
-        (__a).X + (__b).X, (__a).Y + (__b).Y \
-    }
-
-#define POS_SUB(__type, __a, __b)            \
-    (__type)                                 \
-    {                                        \
-        (__a).X - (__b).X, (__a).Y - (__b).Y \
-    }
-
 #define DECL_POSITION_CONVERT_FUNCTION(__from, __to) \
     __to##_t __from##_to_##__to(__from##_t pos);
 

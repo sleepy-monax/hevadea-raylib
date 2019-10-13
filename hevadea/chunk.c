@@ -73,8 +73,6 @@ void chunk_iterate_all(chunk_iterate_callback_t callback, void *arg)
 
 void chunks_debug_draw(void)
 {
-    //chunk_position_t camera_pos = position_to_chunk_position(camera_get_position());
-
     for (int i = 0; i < MAX_LOADED_CHUNK; i++)
     {
         chunk_t *chunk = &chunks[i];
@@ -122,29 +120,6 @@ iterate_state_t chunk_render_terrain_callback(chunk_t *chunk, void *arg)
             tile_blueprint_t *t = chunk->tiles[x][y].blueprint;
 
             graphic_fill_rectangle(tile_bound(pos), t->color);
-
-            if (IsKeyDown(KEY_I))
-            {
-                double value = (chunk->tiles[x][y].elevation + 1) / 2;
-                int vv = 255 * fmax(value, 0);
-                color_t tempcolor = (color_t){vv, 0, 0, 255};
-                graphic_fill_rectangle(tile_bound(pos), tempcolor);
-            }
-            if (IsKeyDown(KEY_O))
-            {
-                double value = (chunk->tiles[x][y].moisture + 1) / 2;
-                int vv = 255 * fmax(value, 0);
-                color_t tempcolor = (color_t){0, 0, vv, 255};
-                graphic_fill_rectangle(tile_bound(pos), tempcolor);
-            }
-
-            if (IsKeyDown(KEY_P))
-            {
-                double value = (chunk->tiles[x][y].temperature + 1) / 2;
-                int vv = 255 * fmax(value, 0);
-                color_t tempcolor = (color_t){0, vv, 0, 255};
-                graphic_fill_rectangle(tile_bound(pos), tempcolor);
-            }
         }
     }
 
