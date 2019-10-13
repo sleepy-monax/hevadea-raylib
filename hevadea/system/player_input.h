@@ -7,12 +7,12 @@
 #define PLAYER_MOVE_SPEED 3
 #define PLAYER_RUN_SPEED 128
 
-static void system_player_input_process(entity_t player, gametime_t gametime)
+static void system_player_input_process(entity_instance_t *player, gametime_t gametime)
 {
     (void)gametime;
 
     vector_t motion = (vector_t){0, 0};
-    direction_t facing = E(player)->facing;
+    direction_t facing = player->facing;
 
     if (IsKeyDown(KEY_W))
     {
@@ -52,8 +52,8 @@ static void system_player_input_process(entity_t player, gametime_t gametime)
         }
     }
 
-    E(player)->facing = facing;
-    E(player)->motion = motion;
+    player->motion = motion;
+    player->facing = facing;
 }
 
 static system_t system_player_input = {

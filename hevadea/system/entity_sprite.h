@@ -4,11 +4,11 @@
 #include <hevadea/graphic.h>
 #include <hevadea/sprite.h>
 
-static void system_entity_sprite_process(entity_t entity, gametime_t gametime)
+static void system_entity_sprite_process(entity_instance_t *entity, gametime_t gametime)
 {
     (void)gametime;
 
-    graphic_draw_sprite(E(entity)->sprite, vector_add(position_to_vector(E(entity)->position), vector_reverse(E(entity)->sprite_origine)), COLOR_WHITE);
+    graphic_draw_sprite(entity->sprite, vector_add(position_to_vector(entity->position), vector_reverse(entity->sprite_origine)), COLOR_WHITE);
 }
 
 static system_t system_entity_sprite = {

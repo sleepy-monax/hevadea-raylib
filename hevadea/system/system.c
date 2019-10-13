@@ -33,7 +33,7 @@ typedef struct
     gametime_t gametime;
 } system_process_callback_args_t;
 
-iterate_state_t system_process_callback(entity_t entity, system_process_callback_args_t *args)
+iterate_state_t system_process_callback(entity_instance_t *entity, system_process_callback_args_t *args)
 {
     bool is_entity_processable = entity_has_component(entity, args->sys->mask);
 

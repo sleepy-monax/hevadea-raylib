@@ -22,13 +22,10 @@ typedef enum
     __COMPONENT_COUNT,
 } entity_component_t;
 
-_Static_assert(__COMPONENT_COUNT <= INT_MAX);
-
 struct entity_blueprint_t;
 
 typedef struct
 {
-    bool allocated;
     int components;
     const struct entity_blueprint_t *blueprint;
 
@@ -59,32 +56,28 @@ typedef struct entity_blueprint_t
     entity_blueprint_destroy_callback_t destroy;
 } entity_blueprint_t;
 
-typedef unsigned int entity_t;
-
 /* --- Entity logistic ------------------------------------------------------ */
 
-entity_t entity_create(const entity_blueprint_t *blueprint, position_t position);
+entity_instance_t *entity_create(const entity_blueprint_t *blueprint, position_t position);
 
-void entity_destroy(entity_t entity);
-
-#define E(__entity) entity_instance(__entity)
-
-entity_instance_t *entity_instance(entity_t entity);
+void entity_destroy(entity_instance_t *this);
 
 const entity_blueprint_t *entity_blueprint(const char *name);
 
 /* --- Entity iterators ----------------------------------------------------- */
 
-typedef iterate_state_t (*entity_iterate_callback_t)(entity_t entity, void *arg);
+typedef iterate_state_t (*entity_iterate_callback_t)(entity_instance_t *entity, void *arg);
 
-void entity_iterate_all(entity_iterate_callback_t callback, void *arg);
+void entity_iterate_all(entity_iterate_callback_t callback, void *args);
 
 /* --- Entity state --------------------------------------------------------- */
 
-bool entity_has_component(entity_t entity, entity_component_t mask);
+bool entity_has_component(entity_instance_t *this, entity_component_t mask);
 
-rectangle_t entity_get_bound(entity_t entity);
+bool entity_is_moving(entity_instance_t *this);
 
-chunk_position_t entity_get_chunk(entity_t entity);
+rectangle_t entity_get_bound(entity_instance_t *this);
 
-bool entity_is_moving(entity_t entity);
+bool entity_colide_with(entity_instance_t *this, rectangle_t bound);
+
+chunk_position_t entity_get_chunk(entity_instance_t *this);

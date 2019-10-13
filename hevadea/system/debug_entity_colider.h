@@ -4,13 +4,13 @@
 #include <hevadea/tile/tile.h>
 #include <hevadea/graphic.h>
 
-static void system_debug_entity_colider_process(entity_t entity, gametime_t gametime)
+static void system_debug_entity_colider_process(entity_instance_t *entity, gametime_t gametime)
 {
     (void)gametime;
 
     if (entity_has_component(entity, COMPONENT_MOTION))
     {
-        tile_position_t entity_pos = position_to_tile_position(E(entity)->position);
+        tile_position_t entity_pos = position_to_tile_position(entity->position);
 
         for (int x = entity_pos.X - 1; x <= entity_pos.X + 1; x++)
         {

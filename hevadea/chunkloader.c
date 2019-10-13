@@ -91,7 +91,7 @@ void chunkloader_load_chunks(void)
 
 /* --- Chunk unloading ------------------------------------------------------ */
 
-static iterate_state_t entity_unload_callback(entity_t entity, chunk_t *chunk)
+static iterate_state_t entity_unload_callback(entity_instance_t *entity, chunk_t *chunk)
 {
     chunk_position_t entity_pos = entity_get_chunk(entity);
 

@@ -5,26 +5,17 @@
 #include <hevadea/system/system.h>
 #include <hevadea/graphic.h>
 
-static void system_debug_entity_motion_process(entity_t entity, gametime_t gametime)
+static void system_debug_entity_motion_process(entity_instance_t *entity, gametime_t gametime)
 {
     (void)gametime;
 
-    if (E(entity)->motion.X == 0 && E(entity)->motion.Y == 0)
+    if (entity_is_moving(entity))
     {
-        return;
+        vector_t from = position_to_vector(entity->position);
+        vector_t to = vector_add(from, entity->motion);
+
+        graphic_draw_line(from, to, COLOR_MAGENTA);
     }
-
-    vector_t from = (vector_t){
-        E(entity)->position.X,
-        E(entity)->position.Y,
-    };
-
-    vector_t to = (vector_t){
-        E(entity)->position.X + (E(entity)->motion.X),
-        E(entity)->position.Y + (E(entity)->motion.Y),
-    };
-
-    graphic_draw_line(from, to, COLOR_MAGENTA);
 }
 
 static system_t system_debug_entity_motion = {

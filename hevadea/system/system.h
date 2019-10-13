@@ -10,7 +10,7 @@ typedef enum
     SYSTEM_OVERLAY
 } system_type_t;
 
-typedef void (*system_process_callback_t)(entity_t entity, gametime_t gametime);
+typedef void (*system_process_callback_t)(entity_instance_t *entity, gametime_t gametime);
 
 typedef struct
 {

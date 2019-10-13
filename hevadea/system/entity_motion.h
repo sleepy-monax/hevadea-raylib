@@ -3,7 +3,7 @@
 #include <hevadea/system/system.h>
 #include <hevadea/camera.h>
 
-static vector_t system_entity_motion_check_with_tile(entity_t entity, vector_t motion, tile_position_t pos)
+static vector_t system_entity_motion_check_with_tile(entity_instance_t *entity, vector_t motion, tile_position_t pos)
 {
     tile_instance_t *tile = tile_at(pos);
 
@@ -45,13 +45,13 @@ static vector_t system_entity_motion_check_with_tile(entity_t entity, vector_t m
     return motion;
 }
 
-static void system_entity_motion_process(entity_t entity, gametime_t gametime)
+static void system_entity_motion_process(entity_instance_t *entity, gametime_t gametime)
 {
-    vector_t motion = vector_scale(E(entity)->motion, gametime.deltatime * UNIT_PER_TILE);
+    vector_t motion = vector_scale(entity->motion, gametime.deltatime * UNIT_PER_TILE);
 
     if (entity_has_component(entity, COMPONENT_COLIDER))
     {
-        tile_position_t entity_pos = position_to_tile_position(E(entity)->position);
+        tile_position_t entity_pos = position_to_tile_position(entity->position);
 
         for (int x = entity_pos.X - 1; x <= entity_pos.X + 1; x++)
         {
@@ -62,12 +62,12 @@ static void system_entity_motion_process(entity_t entity, gametime_t gametime)
         }
     }
 
-    E(entity)->position.X += motion.X;
-    E(entity)->position.Y += motion.Y;
+    entity->position.X += motion.X;
+    entity->position.Y += motion.Y;
 
     if (entity_has_component(entity, COMPONENT_PLAYER))
     {
-        camera_set_focus(E(entity)->position);
+        camera_set_focus(entity->position);
     }
 }
 
