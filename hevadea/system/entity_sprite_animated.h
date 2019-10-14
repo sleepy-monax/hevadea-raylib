@@ -13,8 +13,9 @@ static void system_entity_sprite_animated_process(entity_instance_t *entity, gam
 
     if (entity_is_moving(entity))
     {
-        frame = FRAMES[(int)(4 * gametime.totaltime) % 4];
+        frame = FRAMES[(int)(6 * gametime.totaltime) % 4];
     }
+
     sprite_t current_sprite = sprite_subsprite(entity->sprite, 3, 4, frame, entity->facing);
 
     graphic_draw_sprite(
