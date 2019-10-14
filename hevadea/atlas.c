@@ -193,7 +193,7 @@ void atlas_unload(void)
     {
         sprite_t *sprite = array_index(atlas_sprites, i);
 
-        free((char*)sprite->name);
+        free((char *)sprite->name);
     }
 
     array_destroy(atlas_sprites, NULL, NULL);
@@ -223,5 +223,5 @@ sprite_t atlas_sprite_by_name(const char *name)
         }
     }
 
-    return atlas_sprite_by_name(name);
+    return atlas_sprite_by_name("none");
 }
