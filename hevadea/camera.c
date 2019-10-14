@@ -85,8 +85,8 @@ rectangle_t camera_load_bound(void)
 {
     rectangle_t bound;
 
-    bound.X = camera_position_focused.X - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
-    bound.Y = camera_position_focused.Y - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.X = camera_position_animated.X - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.Y = camera_position_animated.Y - (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
 
     bound.Width = 2 * (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
     bound.Height = 2 * (CHUNK_LOAD_DISTANCE * UNIT_PER_CHUNK);
@@ -98,8 +98,8 @@ rectangle_t camera_unload_bound(void)
 {
     rectangle_t bound;
 
-    bound.X = camera_position_focused.X - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
-    bound.Y = camera_position_focused.Y - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.X = camera_position_animated.X - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
+    bound.Y = camera_position_animated.Y - (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
 
     bound.Width = 2 * (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
     bound.Height = 2 * (CHUNK_UNLOAD_DISTANCE * UNIT_PER_CHUNK);
