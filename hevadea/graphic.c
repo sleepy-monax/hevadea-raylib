@@ -3,6 +3,14 @@
 #include <hevadea/graphic.h>
 #include <hevadea/atlas.h>
 
+// void graphic_context_create(int width, int height, int fps)
+// {
+// }
+//
+// void graphic_context_destroy(void)
+// {
+// }
+
 static Color color_to_raylib(color_t color)
 {
     return (Color){color.red, color.green, color.blue, color.alpha};

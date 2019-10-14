@@ -2,7 +2,9 @@
 #include <math.h>
 
 #include <hevadea/camera.h>
+#include <hevadea/graphic.h>
 #include <hevadea/atlas.h>
+#include <hevadea/biome/biome.h>
 #include <hevadea/chunk.h>
 #include <hevadea/chunkloader.h>
 #include <hevadea/system/system.h>
@@ -48,14 +50,15 @@ void game_draw(gametime_t gametime)
             camera_debug_draw();
         }
     }
+
     camera_render_end();
 
     // for (int x = -100; x <= 100; x++)
     // {
     //     for (int y = -100; y <= 100; y++)
     //     {
-    //         color_t c = biome_lookup(x / 100.0, y / 100.0, sin(GetTime()))->tile->color;
-    //         DrawRectangle(GetScreenWidth() / 2 + x, GetScreenHeight() / 2 + y, 1, 1, (Color){c.R, c.G, c.B, 255});
+    //         color_t c = biome_lookup(x / 100.0, sin(GetTime() / 10.0), y / 100.0)->tile->color;
+    //         graphic_fill_rectangle((rectangle_t){GetScreenWidth() / 2 + x, GetScreenHeight() / 2 + y, 1, 1}, c);
     //     }
     // }
 
@@ -66,7 +69,7 @@ void game_draw(gametime_t gametime)
 
 void game_loop(void)
 {
-    entity_create(entity_blueprint("player"), (position_t){16, 16});
+    entity_create(entity_blueprint("player"), (position_t){0, 0});
 
     while (!WindowShouldClose())
     {
@@ -86,6 +89,7 @@ int main(void)
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
 
     atlas_load();
+    tile_load();
 
     SetTargetFPS(WINDOW_FPS);
 
@@ -93,10 +97,9 @@ int main(void)
     game_loop();
 
     atlas_unload();
-    
+
     log_info("Closing window...");
     CloseWindow();
-
 
     log_info("Goodbye");
 }

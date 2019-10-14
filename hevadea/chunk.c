@@ -102,6 +102,22 @@ void chunks_debug_draw(void)
     }
 }
 
+void chunk_render_terrain_corner(sprite_t sprite, vector_t pos, bool a, bool b, bool c, vector_t case1, vector_t case2, vector_t case3, vector_t case4, vector_t case5)
+{
+    if (!a & !c)
+        sprite = sprite_subsprite(sprite, 4, 4, case1.X, case1.Y);
+    else if (a & !c)
+        sprite = sprite_subsprite(sprite, 4, 4, case2.X, case2.Y);
+    else if (!a & c)
+        sprite = sprite_subsprite(sprite, 4, 4, case3.X, case3.Y);
+    else if (!b)
+        sprite = sprite_subsprite(sprite, 4, 4, case4.X, case4.Y);
+    else
+        sprite = sprite_subsprite(sprite, 4, 4, case5.X, case5.Y);
+
+    graphic_draw_sprite(sprite, pos, COLOR_WHITE);
+}
+
 iterate_state_t chunk_render_terrain_callback(chunk_t *chunk, void *arg)
 {
     (void)arg;
@@ -115,11 +131,32 @@ iterate_state_t chunk_render_terrain_callback(chunk_t *chunk, void *arg)
     {
         for (int y = 0; y < TILE_PER_CHUNK; y++)
         {
-            tile_position_t pos = (tile_position_t){x + chunk_pos.X, y + chunk_pos.Y};
+            tile_position_t tile_pos = (tile_position_t){x + chunk_pos.X, y + chunk_pos.Y};
 
-            tile_blueprint_t *t = chunk->tiles[x][y].blueprint;
+            if (tile_has_component(tile_pos, TILE_COMPONENT_SPRITE))
+            {
+                tile_connection_t connection = tile_get_connection(tile_pos);
+                sprite_t sprite = tile_get_sprite(tile_pos);
+                vector_t vec = position_to_vector(tile_position_to_position(tile_pos));
 
-            graphic_fill_rectangle(tile_bound(pos), t->color);
+                graphic_fill_rectangle(tile_get_bound(tile_pos), (color_t){148, 120, 92, 255});
+
+                chunk_render_terrain_corner(sprite, vector_add(vec, (vector_t){0, 0}), connection.left, connection.up_left, connection.up,
+                                            (vector_t){0, 0}, (vector_t){0, 2}, (vector_t){0, 3}, (vector_t){2, 0}, (vector_t){2, 2});
+
+                chunk_render_terrain_corner(sprite, vector_add(vec, (vector_t){0, UNIT_PER_TILE / 2}), connection.down, connection.down_left, connection.left,
+                                            (vector_t){0, 1}, (vector_t){0, 3}, (vector_t){1, 3}, (vector_t){2, 1}, (vector_t){2, 3});
+
+                chunk_render_terrain_corner(sprite, vector_add(vec, (vector_t){UNIT_PER_TILE / 2, 0}), connection.up, connection.up_right, connection.right,
+                                            (vector_t){1, 0}, (vector_t){1, 2}, (vector_t){0, 2}, (vector_t){3, 0}, (vector_t){3, 2});
+
+                chunk_render_terrain_corner(sprite, vector_add(vec, (vector_t){UNIT_PER_TILE / 2, UNIT_PER_TILE / 2}), connection.right, connection.down_right, connection.down,
+                                            (vector_t){1, 1}, (vector_t){1, 3}, (vector_t){1, 2}, (vector_t){3, 1}, (vector_t){3, 3});
+            }
+            else
+            {
+                graphic_fill_rectangle(tile_get_bound(tile_pos), tile_get_color(tile_pos));
+            }
         }
     }
 
