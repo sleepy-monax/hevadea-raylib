@@ -37,6 +37,11 @@ vector_t position_vector_to(position_t from, position_t to)
     return vector_normalized((vector_t){to.X - from.X, to.Y - from.Y});
 }
 
+double position_distance(position_t from, position_t to)
+{
+    return sqrt((from.X - to.X) * (from.X - to.X) + (from.Y - to.Y) * (from.Y - to.Y));
+}
+
 /* --- Tile Position -------------------------------------------------------- */
 
 #define TILE_TO_POS(__v) (__v * UNIT_PER_TILE)

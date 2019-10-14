@@ -16,13 +16,13 @@ static void system_debug_entity_colider_process(entity_instance_t *entity, gamet
         {
             for (int y = entity_pos.Y - 1; y <= entity_pos.Y + 1; y++)
             {
-                if (tile_has_component(tile_at((tile_position_t){x, y}), TILE_COMPONENT_SOLID))
+                if (tile_has_component((tile_position_t){x, y}, TILE_COMPONENT_SOLID))
                 {
-                    graphic_draw_rectangle(tile_bound((tile_position_t){x, y}), COLOR_BLACK);
+                    graphic_draw_rectangle(tile_get_bound((tile_position_t){x, y}), COLOR_BLACK);
                 }
                 else
                 {
-                    graphic_draw_rectangle(tile_bound((tile_position_t){x, y}), COLOR_WHITE);
+                    graphic_draw_rectangle(tile_get_bound((tile_position_t){x, y}), COLOR_WHITE);
                 }
             }
         }

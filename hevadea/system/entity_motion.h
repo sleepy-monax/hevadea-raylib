@@ -3,63 +3,105 @@
 #include <hevadea/system/system.h>
 #include <hevadea/camera.h>
 
-static vector_t system_entity_motion_check_with_tile(entity_instance_t *entity, vector_t motion, tile_position_t pos)
+static vector_t entity_motion_check(entity_instance_t *entity, vector_t motion, rectangle_t colide_bound)
 {
-    tile_instance_t *tile = tile_at(pos);
+    // Test x offset
+    rectangle_t entity_bound = entity_get_bound(entity);
+    entity_bound = rectangle_offset(entity_bound, vector_X(motion));
 
-    if (tile != NULL && tile_has_component(tile, TILE_COMPONENT_SOLID))
+    if (rectangle_coliding(entity_bound, colide_bound))
     {
-        position_t tile_pos = tile_position_to_position(pos);
+        motion.X = 0;
 
-        rectangle_t tile_bound = (rectangle_t){tile_pos.X, tile_pos.Y, UNIT_PER_TILE, UNIT_PER_TILE};
+        log_debug("case1");
+    }
 
-        // Test x offset
-        rectangle_t entity_bound = entity_get_bound(entity);
-        entity_bound = rectangle_offset(entity_bound, vector_X(motion));
+    // Test y offset
+    entity_bound = entity_get_bound(entity);
+    entity_bound = rectangle_offset(entity_bound, vector_Y(motion));
 
-        if (rectangle_coliding(entity_bound, tile_bound))
-        {
-            motion.X = 0;
-        }
+    if (rectangle_coliding(entity_bound, colide_bound))
+    {
+        motion.Y = 0;
 
-        // Test y offset
-        entity_bound = entity_get_bound(entity);
-        entity_bound = rectangle_offset(entity_bound, vector_Y(motion));
+        log_debug("case2");
+    }
 
-        if (rectangle_coliding(entity_bound, tile_bound))
-        {
-            motion.Y = 0;
-        }
+    // Test x, y offset
+    entity_bound = entity_get_bound(entity);
+    entity_bound = rectangle_offset(entity_bound, motion);
 
-        // Test x, y offset
-        entity_bound = entity_get_bound(entity);
-        entity_bound = rectangle_offset(entity_bound, motion);
+    if (rectangle_coliding(entity_bound, colide_bound))
+    {
+        motion.X = 0;
+        motion.Y = 0;
 
-        if (rectangle_coliding(entity_bound, tile_bound))
-        {
-            motion.X = 0;
-            motion.Y = 0;
-        }
+        log_debug("case3");
     }
 
     return motion;
 }
 
+static vector_t system_entity_motion_check_with_tile(entity_instance_t *entity, vector_t motion, tile_position_t pos)
+{
+    if (tile_has_component(pos, TILE_COMPONENT_SOLID))
+    {
+        motion = entity_motion_check(entity, motion, tile_get_bound(pos));
+    }
+
+    return motion;
+}
+
+static vector_t system_entity_motion_check_with_chunk(entity_instance_t *entity, vector_t motion, chunk_position_t pos)
+{
+    chunk_t *chunk = chunk_at(pos);
+
+    if (chunk == NULL || chunk->state != CHUNK_STATE_LOADED)
+    {
+        motion = entity_motion_check(entity, motion, chunk_bound(pos));
+    }
+
+    return motion;
+}
+
+// static vector_t system_entity_motion_check_with_entity(entity_instance_t *entity, vector_t motion, entity_instance_t *other_entity)
+// {
+//     if (entity_has_component(other_entity, COMPONENT_COLIDER))
+//     {
+//         motion = entity_motion_check(entity, motion, entity_get_bound(other_entity));
+//     }
+//
+//     return motion;
+// }
+
 static void system_entity_motion_process(entity_instance_t *entity, gametime_t gametime)
 {
     vector_t motion = vector_scale(entity->motion, gametime.deltatime * UNIT_PER_TILE);
 
-    if (entity_has_component(entity, COMPONENT_COLIDER))
+    if (vector_lenght(motion) > 0.01 && entity_has_component(entity, COMPONENT_COLIDER))
     {
-        tile_position_t entity_pos = position_to_tile_position(entity->position);
-
-        for (int x = entity_pos.X - 1; x <= entity_pos.X + 1; x++)
+        // check colision with unloaded chunks
+        chunk_position_t chunk_pos = position_to_chunk_position(entity->position);
+        for (int x = chunk_pos.X - 1; x <= chunk_pos.X + 1; x++)
         {
-            for (int y = entity_pos.Y - 1; y <= entity_pos.Y + 1; y++)
+            for (int y = chunk_pos.Y - 1; y <= chunk_pos.Y + 1; y++)
+            {
+                motion = system_entity_motion_check_with_chunk(entity, motion, (chunk_position_t){x, y});
+            }
+        }
+
+        // Check colision with tiles
+        tile_position_t tile_pos = position_to_tile_position(entity->position);
+
+        for (int x = tile_pos.X - 1; x <= tile_pos.X + 1; x++)
+        {
+            for (int y = tile_pos.Y - 1; y <= tile_pos.Y + 1; y++)
             {
                 motion = system_entity_motion_check_with_tile(entity, motion, (tile_position_t){x, y});
             }
         }
+
+        // Check colision with entities
     }
 
     entity->position.X += motion.X;

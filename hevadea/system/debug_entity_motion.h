@@ -16,6 +16,11 @@ static void system_debug_entity_motion_process(entity_instance_t *entity, gameti
 
         graphic_draw_line(from, to, COLOR_MAGENTA);
     }
+
+    if (entity_has_component(entity, COMPONENT_PATHFINDING) && entity->pathfinding_should_move)
+    {
+        graphic_draw_line(position_to_vector(entity->position), position_to_vector(entity->pathfinding_destination), COLOR_CYAN);
+    }
 }
 
 static system_t system_debug_entity_motion = {

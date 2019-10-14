@@ -5,6 +5,18 @@
 #include <hevadea/system/system.h>
 #include <hevadea/noise.h>
 #include <hevadea/random.h>
+#include <hevadea/tile/tile.h>
+
+static bool entity_can_wander_here(entity_instance_t *entity, tile_position_t pos)
+{
+    if (tile_has_component(pos, TILE_COMPONENT_LIQUID))
+        return false;
+
+    if (tile_has_component(pos, TILE_COMPONENT_SOLID) && entity_has_component(entity, COMPONENT_COLIDER))
+        return false;
+
+    return true;
+}
 
 static void system_wandering_process(entity_instance_t *entity, gametime_t gametime)
 {
@@ -15,9 +27,13 @@ static void system_wandering_process(entity_instance_t *entity, gametime_t gamet
         entity->wandering_timer = fabs(random_next_double()) * 3;
 
         vector_t wandering_position = vector_scale(random_next_vector(), 16 * 16);
+        position_t destination = position_offset(entity->position, wandering_position);
 
-        entity->pathfinding_destination = position_offset(entity->position, wandering_position);
-        entity->pathfinding_should_move = true;
+        if (entity_can_wander_here(entity, position_to_tile_position(destination)))
+        {
+            entity->pathfinding_destination = destination;
+            entity->pathfinding_should_move = true;
+        }
     }
 }
 
