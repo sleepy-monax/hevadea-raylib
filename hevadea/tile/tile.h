@@ -39,12 +39,8 @@ typedef struct
 } tile_instance_t;
 
 extern tile_blueprint_t TILE_WATER;
-extern tile_blueprint_t TILE_DEEP_WATER;
 extern tile_blueprint_t TILE_SAND;
-extern tile_blueprint_t TILE_BEACH_SAND;
 extern tile_blueprint_t TILE_GRASS;
-extern tile_blueprint_t TILE_SWAMP_GRASS;
-extern tile_blueprint_t TILE_FOREST_GRASS;
 extern tile_blueprint_t TILE_SNOW;
 extern tile_blueprint_t TILE_DIRT;
 extern tile_blueprint_t TILE_ROCK;

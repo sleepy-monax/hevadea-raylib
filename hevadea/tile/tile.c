@@ -11,39 +11,15 @@ tile_blueprint_t TILE_WATER = {
     .components = TILE_COMPONENT_LIQUID,
 };
 
-tile_blueprint_t TILE_DEEP_WATER = {
-    .name = "deep_water",
-    .color = (color_t){0, 0, 175, 255},
-    .components = TILE_COMPONENT_SOLID | TILE_COMPONENT_LIQUID,
-};
-
 tile_blueprint_t TILE_SAND = {
     .name = "sand",
     .color = (color_t){255, 175, 0, 255},
     .components = 0,
 };
 
-tile_blueprint_t TILE_BEACH_SAND = {
-    .name = "beach_sand",
-    .color = (color_t){255, 200, 100, 255},
-    .components = 0,
-};
-
 tile_blueprint_t TILE_GRASS = {
     .name = "grass",
     .color = (color_t){0, 175, 0, 255},
-    .components = 0,
-};
-
-tile_blueprint_t TILE_FOREST_GRASS = {
-    .name = "forest_grass",
-    .color = (color_t){0, 125, 25, 255},
-    .components = 0,
-};
-
-tile_blueprint_t TILE_SWAMP_GRASS = {
-    .name = "swamp_grass",
-    .color = (color_t){0, 100, 0, 255},
     .components = 0,
 };
 
@@ -73,12 +49,8 @@ tile_blueprint_t TILE_ROCK = {
 
 static tile_blueprint_t *blueprints[] = {
     &TILE_WATER,
-    &TILE_DEEP_WATER,
     &TILE_SAND,
-    &TILE_BEACH_SAND,
     &TILE_GRASS,
-    &TILE_SWAMP_GRASS,
-    &TILE_FOREST_GRASS,
     &TILE_SNOW,
     &TILE_DIRT,
     &TILE_ROCK,
@@ -99,6 +71,15 @@ void tile_load(void)
 
     TILE_ROCK.components |= TILE_COMPONENT_SPRITE;
     TILE_ROCK.sprite = atlas_sprite_by_name("tile/rock");
+
+    TILE_SNOW.components |= TILE_COMPONENT_SPRITE;
+    TILE_SNOW.sprite = atlas_sprite_by_name("tile/snow");
+
+    TILE_DIRT.components |= TILE_COMPONENT_SPRITE;
+    TILE_DIRT.sprite = atlas_sprite_by_name("tile/dirt");
+
+    TILE_GRAVEL.components |= TILE_COMPONENT_SPRITE;
+    TILE_GRAVEL.sprite = atlas_sprite_by_name("tile/gravel");
 }
 
 tile_instance_t *tile_at(tile_position_t pos)
