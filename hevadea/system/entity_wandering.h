@@ -9,7 +9,10 @@
 
 static bool entity_can_wander_here(entity_instance_t *entity, tile_position_t pos)
 {
-    if (tile_has_component(pos, TILE_COMPONENT_LIQUID))
+    if (tile_has_component(pos, TILE_COMPONENT_LIQUID) && !entity_has_component(entity, COMPONENT_SWIMMING))
+        return false;
+
+    if (!tile_has_component(pos, TILE_COMPONENT_LIQUID) && entity_has_component(entity, COMPONENT_SWIMMING))
         return false;
 
     if (tile_has_component(pos, TILE_COMPONENT_SOLID) && entity_has_component(entity, COMPONENT_COLIDER))
