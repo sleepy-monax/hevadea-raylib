@@ -1,8 +1,8 @@
+PROJECT=hevadea
 SOURCES = $(wildcard hevadea/*.c) $(wildcard hevadea/*/*.c)
 OBJECTS = $(SOURCES:.c=.o)
 
 CC = gcc
-
 LDFLAGS = -lraylib -lm
 CFLAGS = -g \
 		 -MD \
@@ -13,15 +13,17 @@ CFLAGS = -g \
 		 -fsanitize=address \
 		 -fsanitize=undefined 
  
-hevadea.out: $(OBJECTS)
+$(PROJECT).out: $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-.PHONY: test clean
+.PHONY: all clean test
 
-test: hevadea.out
-	./hevadea.out
+all: $(PROJECT).out
 
 clean:
-	rm -f $(OBJECTS) $(SOURCES:.c=.d) hevadea.out
+	rm -f $(OBJECTS) $(SOURCES:.c=.d) $(PROJECT).out
+
+test: $(PROJECT).out
+	./$(PROJECT).out
 
 -include $(SOURCES:.c=.d)
