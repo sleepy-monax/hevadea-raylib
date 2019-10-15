@@ -14,6 +14,8 @@
 #include <hevadea/entity/grass_medium.h>
 #include <hevadea/entity/grass_tall.h>
 #include <hevadea/entity/flower.h>
+#include <hevadea/entity/chicken.h>
+#include <hevadea/entity/fish.h>
 
 const entity_blueprint_t *blueprints[] = {
     &ENTITY_PLAYER,
@@ -23,6 +25,8 @@ const entity_blueprint_t *blueprints[] = {
     &ENTITY_GRASS_SMALL,
     &ENTITY_GRASS_MEDIUM,
     &ENTITY_GRASS_TALL,
+    &ENTITY_CHICKEN,
+    &ENTITY_FISH,
 
     NULL,
 };

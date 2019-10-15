@@ -39,7 +39,7 @@ static biome_t BIOME_TAIGA = {
 static biome_t BIOME_FOREST = {
     .name = "forest",
 
-    .tile = &TILE_FOREST_GRASS,
+    .tile = &TILE_GRASS,
 
     .temperature = 0,
     .elevation = 0.5,
@@ -88,6 +88,10 @@ static void plain_decorate_callback(tile_position_t pos)
     {
         entity_create(entity_blueprint("rabbit"), tile_position_to_position_centered(pos));
     }
+    else if (noise(pos.X, pos.Y, 4) > 0.95)
+    {
+        entity_create(entity_blueprint("chicken"), tile_position_to_position_centered(pos));
+    }
 }
 
 static biome_t BIOME_PLAIN = {
@@ -115,7 +119,7 @@ static biome_t BIOME_DESERT = {
 static biome_t BIOME_SWAMP = {
     .name = "swamp",
 
-    .tile = &TILE_SWAMP_GRASS,
+    .tile = &TILE_GRASS,
 
     .temperature = 0,
     .elevation = 0.1,
@@ -125,7 +129,7 @@ static biome_t BIOME_SWAMP = {
 static biome_t BIOME_BEACH = {
     .name = "beach",
 
-    .tile = &TILE_BEACH_SAND,
+    .tile = &TILE_SAND,
 
     .temperature = 0,
     .elevation = -0.1,
@@ -155,7 +159,7 @@ static biome_t BIOME_COLD_SEA = {
 static biome_t BIOME_COLD_DEEP_SEA = {
     .name = "cold_deep_sea",
 
-    .tile = &TILE_DEEP_WATER,
+    .tile = &TILE_WATER,
 
     .temperature = -0.5,
     .elevation = -0.5,
@@ -175,12 +179,20 @@ static biome_t BIOME_WARM_SEA = {
 static biome_t BIOME_WARM_DEEP_SEA = {
     .name = "warm_deep_sea",
 
-    .tile = &TILE_DEEP_WATER,
+    .tile = &TILE_WATER,
 
     .temperature = 0.5,
     .elevation = -0.5,
     .moisture = -0.5,
 };
+
+static void sea_decorate_callback(tile_position_t pos)
+{
+    if (noise(pos.X, pos.Y, 1) > 0.95)
+    {
+        entity_create(entity_blueprint("fish"), tile_position_to_position_centered(pos));
+    }
+}
 
 static biome_t BIOME_SEA = {
     .name = "sea",
@@ -190,12 +202,14 @@ static biome_t BIOME_SEA = {
     .temperature = 0,
     .elevation = -0.2,
     .moisture = 0,
+
+    .decorate = sea_decorate_callback,
 };
 
 static biome_t BIOME_DEEP_SEA = {
     .name = "deep_sea",
 
-    .tile = &TILE_DEEP_WATER,
+    .tile = &TILE_WATER,
 
     .temperature = 0,
     .elevation = -0.5,

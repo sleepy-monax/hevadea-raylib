@@ -18,6 +18,7 @@ typedef enum
     COMPONENT_SPRITE_ANIMATED = 1 << 4,
     COMPONENT_PATHFINDING = 1 << 5,
     COMPONENT_WANDERING = 1 << 6,
+    COMPONENT_SWIMMING = 1 << 7,
 
     __COMPONENT_COUNT,
 } entity_component_t;
