@@ -23,6 +23,8 @@ typedef struct
     int Y;
 } chunk_position_t;
 
+#define any_position_equal(__a, __b) (((__a).X == (__b).X) && ((__a).Y == (__b).Y))
+
 #define DECL_POSITION_CONVERT_FUNCTION(__from, __to) \
     __to##_t __from##_to_##__to(__from##_t pos);
 

@@ -6,6 +6,7 @@
 #include <hevadea/system/system.h>
 #include <hevadea/logger.h>
 
+#include <hevadea/tile/tile.h>
 #include <hevadea/entity/entity.h>
 #include <hevadea/entity/player.h>
 #include <hevadea/entity/rabbit.h>
@@ -132,4 +133,15 @@ bool entity_colide_with(entity_instance_t *this, rectangle_t bound)
 chunk_position_t entity_get_chunk(entity_instance_t *this)
 {
     return position_to_chunk_position(this->position);
+}
+
+bool entity_can_go_here(entity_instance_t *entity, tile_position_t pos)
+{
+    if (tile_has_component(pos, TILE_COMPONENT_LIQUID) ^ entity_has_component(entity, COMPONENT_SWIMMING))
+        return false;
+
+    if (tile_has_component(pos, TILE_COMPONENT_SOLID) && entity_has_component(entity, COMPONENT_COLIDER))
+        return false;
+
+    return true;
 }

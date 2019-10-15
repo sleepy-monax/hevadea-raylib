@@ -82,3 +82,5 @@ rectangle_t entity_get_bound(entity_instance_t *this);
 bool entity_colide_with(entity_instance_t *this, rectangle_t bound);
 
 chunk_position_t entity_get_chunk(entity_instance_t *this);
+
+bool entity_can_go_here(entity_instance_t *entity, tile_position_t pos);
