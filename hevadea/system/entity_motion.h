@@ -5,29 +5,22 @@
 
 static vector_t entity_motion_check(entity_instance_t *entity, vector_t motion, rectangle_t colide_bound)
 {
-    // Test x offset
     rectangle_t entity_bound = entity_get_bound(entity);
     entity_bound = rectangle_offset(entity_bound, vector_X(motion));
 
     if (rectangle_coliding(entity_bound, colide_bound))
     {
         motion.X = 0;
-
-        log_debug("case1");
     }
 
-    // Test y offset
     entity_bound = entity_get_bound(entity);
     entity_bound = rectangle_offset(entity_bound, vector_Y(motion));
 
     if (rectangle_coliding(entity_bound, colide_bound))
     {
         motion.Y = 0;
-
-        log_debug("case2");
     }
 
-    // Test x, y offset
     entity_bound = entity_get_bound(entity);
     entity_bound = rectangle_offset(entity_bound, motion);
 
@@ -35,8 +28,6 @@ static vector_t entity_motion_check(entity_instance_t *entity, vector_t motion, 
     {
         motion.X = 0;
         motion.Y = 0;
-
-        log_debug("case3");
     }
 
     return motion;
