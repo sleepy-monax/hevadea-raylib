@@ -2,10 +2,10 @@
 
 #include <math.h>
 #include <stdlib.h>
-#include <hevadea/system/system.h>
-#include <hevadea/noise.h>
-#include <hevadea/random.h>
-#include <hevadea/tile/tile.h>
+#include "hevadea/system/system.h"
+#include "hevadea/noise.h"
+#include "hevadea/random.h"
+#include "hevadea/tile/tile.h"
 
 static void system_wandering_process(entity_instance_t *entity, gametime_t gametime)
 {

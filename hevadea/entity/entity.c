@@ -2,21 +2,21 @@
 #include <string.h>
 #include <assert.h>
 
-#include <hevadea/utils/list.h>
-#include <hevadea/system/system.h>
-#include <hevadea/logger.h>
+#include "hevadea/utils/list.h"
+#include "hevadea/system/system.h"
+#include "hevadea/logger.h"
 
-#include <hevadea/tile/tile.h>
-#include <hevadea/entity/entity.h>
-#include <hevadea/entity/player.h>
-#include <hevadea/entity/rabbit.h>
-#include <hevadea/entity/tree.h>
+#include "hevadea/tile/tile.h"
+#include "hevadea/entity/entity.h"
+#include "hevadea/entity/player.h"
+#include "hevadea/entity/rabbit.h"
+#include "hevadea/entity/tree.h"
 #include <hevadea/entity/grass_small.h>
 #include <hevadea/entity/grass_medium.h>
 #include <hevadea/entity/grass_tall.h>
-#include <hevadea/entity/flower.h>
-#include <hevadea/entity/chicken.h>
-#include <hevadea/entity/fish.h>
+#include "hevadea/entity/flower.h"
+#include "hevadea/entity/chicken.h"
+#include "hevadea/entity/fish.h"
 
 const entity_blueprint_t *blueprints[] = {
     &ENTITY_PLAYER,

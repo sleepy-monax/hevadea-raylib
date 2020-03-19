@@ -2,11 +2,11 @@
 #include <string.h>
 #include <raylib.h>
 
-#include <hevadea/atlas.h>
-#include <hevadea/array.h>
-#include <hevadea/sprite.h>
-#include <hevadea/filesystem.h>
-#include <hevadea/rectangle.h>
+#include "hevadea/atlas.h"
+#include "hevadea/array.h"
+#include "hevadea/sprite.h"
+#include "hevadea/filesystem.h"
+#include "hevadea/rectangle.h"
 
 Texture2D atlas_texture;
 array_t *atlas_sprites = NULL;

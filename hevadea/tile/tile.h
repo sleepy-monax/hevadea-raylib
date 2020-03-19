@@ -1,9 +1,9 @@
 #pragma once
 
-#include <hevadea/color.h>
-#include <hevadea/position.h>
-#include <hevadea/rectangle.h>
-#include <hevadea/atlas.h>
+#include "hevadea/color.h"
+#include "hevadea/position.h"
+#include "hevadea/rectangle.h"
+#include "hevadea/atlas.h"
 
 typedef enum
 {

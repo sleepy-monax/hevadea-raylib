@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <raylib.h>
 
-#include <hevadea/logger.h>
-#include <hevadea/camera.h>
-#include <hevadea/graphic.h>
+#include "hevadea/logger.h"
+#include "hevadea/camera.h"
+#include "hevadea/graphic.h"
 
 static position_t camera_position_animated = {0};
 static position_t camera_position_focused = {0};

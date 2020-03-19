@@ -1,7 +1,7 @@
 #include <math.h>
 
-#include <hevadea/position.h>
-#include <hevadea/vector.h>
+#include "hevadea/position.h"
+#include "hevadea/vector.h"
 
 #define DEFN_POSITION_CONVERT_FUNCTION(__from, __to, __how)              \
     __to##_t __from##_to_##__to(__from##_t pos)                          \

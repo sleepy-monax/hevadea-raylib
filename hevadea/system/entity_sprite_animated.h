@@ -1,7 +1,7 @@
 #pragma once
 
-#include <hevadea/system/system.h>
-#include <hevadea/sprite.h>
+#include "hevadea/system/system.h"
+#include "hevadea/sprite.h"
 
 static const int FRAMES[] = {0, 2, 1, 2};
 

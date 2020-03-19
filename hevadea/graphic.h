@@ -1,10 +1,10 @@
 #pragma once
 
-#include <hevadea/color.h>
-#include <hevadea/rectangle.h>
-#include <hevadea/sprite.h>
+#include "hevadea/color.h"
+#include "hevadea/rectangle.h"
+#include "hevadea/sprite.h"
 #include <hevadea/texture2d.h>
-#include <hevadea/vector.h>
+#include "hevadea/vector.h"
 
 void graphic_draw_line(vector_t from, vector_t to, color_t color);
 

@@ -1,10 +1,10 @@
 #include <stddef.h>
 #include <raylib.h>
 
-#include <hevadea/camera.h>
-#include <hevadea/logger.h>
+#include "hevadea/camera.h"
+#include "hevadea/logger.h"
 
-#include <hevadea/system/system.h>
+#include "hevadea/system/system.h"
 #include <hevadea/system/debug_entity_colider.h>
 #include <hevadea/system/debug_entity_motion.h>
 #include <hevadea/system/entity_motion.h>

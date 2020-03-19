@@ -1,7 +1,7 @@
 #pragma once
 
-#include <hevadea/entity/entity.h>
-#include <hevadea/atlas.h>
+#include "hevadea/entity/entity.h"
+#include "hevadea/atlas.h"
 
 void chicken_entity_create(entity_instance_t *instance)
 {

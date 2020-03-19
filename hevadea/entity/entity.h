@@ -2,12 +2,12 @@
 
 #include <limits.h>
 
-#include <hevadea/position.h>
-#include <hevadea/utils.h>
-#include <hevadea/vector.h>
-#include <hevadea/rectangle.h>
-#include <hevadea/sprite.h>
-#include <hevadea/direction.h>
+#include "hevadea/position.h"
+#include "hevadea/utils.h"
+#include "hevadea/vector.h"
+#include "hevadea/rectangle.h"
+#include "hevadea/sprite.h"
+#include "hevadea/direction.h"
 
 typedef enum
 {

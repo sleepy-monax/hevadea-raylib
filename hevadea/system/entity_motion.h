@@ -1,7 +1,7 @@
 #pragma once
 
-#include <hevadea/system/system.h>
-#include <hevadea/camera.h>
+#include "hevadea/system/system.h"
+#include "hevadea/camera.h"
 
 static vector_t entity_motion_check(entity_instance_t *entity, vector_t motion, rectangle_t colide_bound)
 {

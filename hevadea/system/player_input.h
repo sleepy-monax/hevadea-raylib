@@ -1,8 +1,8 @@
 #pragma once
 
 #include <raylib.h>
-#include <hevadea/camera.h>
-#include <hevadea/system/system.h>
+#include "hevadea/camera.h"
+#include "hevadea/system/system.h"
 
 #define PLAYER_MOVE_SPEED 3
 #define PLAYER_RUN_SPEED 128

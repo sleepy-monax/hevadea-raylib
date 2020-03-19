@@ -1,6 +1,6 @@
 #pragma once
 
-#include <hevadea/direction.h>
+#include "hevadea/direction.h"
 
 typedef struct
 {

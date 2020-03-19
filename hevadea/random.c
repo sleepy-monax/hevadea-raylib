@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <hevadea/random.h>
+#include "hevadea/random.h"
 
 double random_next_double(void)
 {

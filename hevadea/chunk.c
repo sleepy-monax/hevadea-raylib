@@ -2,11 +2,11 @@
 #include <raylib.h>
 #include <math.h>
 
-#include <hevadea/chunk.h>
-#include <hevadea/camera.h>
-#include <hevadea/logger.h>
-#include <hevadea/utils.h>
-#include <hevadea/graphic.h>
+#include "hevadea/chunk.h"
+#include "hevadea/camera.h"
+#include "hevadea/logger.h"
+#include "hevadea/utils.h"
+#include "hevadea/graphic.h"
 
 static chunk_t chunks[MAX_LOADED_CHUNK] = {0};
 

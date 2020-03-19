@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include <hevadea/array.h>
+#include "hevadea/array.h"
 
 #define ARRAY_DEFAULT_ALLOCATED 512
 

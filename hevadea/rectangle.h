@@ -1,7 +1,7 @@
 #pragma once
 
-#include <hevadea/position.h>
-#include <hevadea/vector.h>
+#include "hevadea/position.h"
+#include "hevadea/vector.h"
 
 typedef struct
 {

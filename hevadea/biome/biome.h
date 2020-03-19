@@ -1,7 +1,7 @@
 #pragma once
 
-#include <hevadea/tile/tile.h>
-#include <hevadea/entity/entity.h>
+#include "hevadea/tile/tile.h"
+#include "hevadea/entity/entity.h"
 
 typedef void (*biome_decorate_callback_t)(tile_position_t pos);
 

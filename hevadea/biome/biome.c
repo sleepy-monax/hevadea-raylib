@@ -2,9 +2,9 @@
 #include <stddef.h>
 #include <assert.h>
 
-#include <hevadea/biome/biome.h>
-#include <hevadea/entity/entity.h>
-#include <hevadea/noise.h>
+#include "hevadea/biome/biome.h"
+#include "hevadea/entity/entity.h"
+#include "hevadea/noise.h"
 
 static biome_t BIOME_MONTAIN = {
     .name = "montain",

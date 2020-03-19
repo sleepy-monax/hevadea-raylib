@@ -1,7 +1,7 @@
 #include <raylib.h>
 
-#include <hevadea/graphic.h>
-#include <hevadea/atlas.h>
+#include "hevadea/graphic.h"
+#include "hevadea/atlas.h"
 
 // void graphic_context_create(int width, int height, int fps)
 // {

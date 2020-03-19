@@ -1,16 +1,16 @@
 #include <raylib.h>
 #include <math.h>
 
-#include <hevadea/camera.h>
-#include <hevadea/graphic.h>
-#include <hevadea/atlas.h>
-#include <hevadea/biome/biome.h>
-#include <hevadea/chunk.h>
-#include <hevadea/chunkloader.h>
-#include <hevadea/system/system.h>
-#include <hevadea/logger.h>
+#include "hevadea/camera.h"
+#include "hevadea/graphic.h"
+#include "hevadea/atlas.h"
+#include "hevadea/biome/biome.h"
+#include "hevadea/chunk.h"
+#include "hevadea/chunkloader.h"
+#include "hevadea/system/system.h"
+#include "hevadea/logger.h"
 
-// #include <hevadea/biome/biome.h>
+// #include "hevadea/biome/biome.h"
 
 static const char *WINDOW_TITLE = "Hevadea";
 static const int WINDOW_HEIGHT = 600;

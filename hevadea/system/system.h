@@ -1,7 +1,7 @@
 #pragma once
 
-#include <hevadea/entity/entity.h>
-#include <hevadea/gametime.h>
+#include "hevadea/entity/entity.h"
+#include "hevadea/gametime.h"
 
 typedef enum
 {

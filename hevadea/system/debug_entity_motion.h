@@ -2,8 +2,8 @@
 
 #include <raylib.h>
 
-#include <hevadea/system/system.h>
-#include <hevadea/graphic.h>
+#include "hevadea/system/system.h"
+#include "hevadea/graphic.h"
 
 static void system_debug_entity_motion_process(entity_instance_t *entity, gametime_t gametime)
 {

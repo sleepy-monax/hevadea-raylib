@@ -1,4 +1,4 @@
-#include <hevadea/sprite.h>
+#include "hevadea/sprite.h"
 
 sprite_t sprite_subsprite(sprite_t sprite, int split_x, int split_y, int x, int y)
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <hevadea/system/system.h>
+#include "hevadea/system/system.h"
 
 static void system_pathfinding_process(entity_instance_t *entity, gametime_t gametime)
 {

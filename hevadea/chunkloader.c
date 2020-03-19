@@ -1,11 +1,11 @@
 #include <stddef.h>
 
-#include <hevadea/camera.h>
-#include <hevadea/chunk.h>
-#include <hevadea/chunkloader.h>
-#include <hevadea/generator.h>
-#include <hevadea/utils.h>
-#include <hevadea/entity/entity.h>
+#include "hevadea/camera.h"
+#include "hevadea/chunk.h"
+#include "hevadea/chunkloader.h"
+#include "hevadea/generator.h"
+#include "hevadea/utils.h"
+#include "hevadea/entity/entity.h"
 
 /* --- Chunk sheduler ------------------------------------------------------- */
 

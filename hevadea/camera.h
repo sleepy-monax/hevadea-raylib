@@ -1,9 +1,9 @@
 #pragma once
 
-#include <hevadea/position.h>
-#include <hevadea/rectangle.h>
-#include <hevadea/chunk.h>
-#include <hevadea/gametime.h>
+#include "hevadea/position.h"
+#include "hevadea/rectangle.h"
+#include "hevadea/chunk.h"
+#include "hevadea/gametime.h"
 
 position_t camera_get_position(void);
 

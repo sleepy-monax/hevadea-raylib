@@ -1,8 +1,8 @@
 #pragma once
 
-#include <hevadea/system/system.h>
-#include <hevadea/tile/tile.h>
-#include <hevadea/graphic.h>
+#include "hevadea/system/system.h"
+#include "hevadea/tile/tile.h"
+#include "hevadea/graphic.h"
 
 static void system_debug_entity_colider_process(entity_instance_t *entity, gametime_t gametime)
 {

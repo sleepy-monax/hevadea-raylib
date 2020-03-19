@@ -4,8 +4,8 @@
 #include <ftw.h>
 #include <assert.h>
 
-#include <hevadea/utils.h>
-#include <hevadea/filesystem.h>
+#include "hevadea/utils.h"
+#include "hevadea/filesystem.h"
 
 static bool filesystem_iterate_nested = false;
 static bool filesystem_iterate_stopped = false;
