@@ -2,8 +2,6 @@
 
 typedef struct
 {
-    const char *name;
-
     double X;
     double Y;
     double Width;

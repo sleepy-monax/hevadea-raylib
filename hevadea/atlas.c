@@ -5,15 +5,16 @@
 #include "hevadea/filesystem.h"
 #include "hevadea/rectangle.h"
 #include "hevadea/sprite.h"
+#include "hevadea/utils/HashMap.h"
 
 Texture2D atlas_texture;
-array_t *atlas_sprites = NULL;
+static HashMap *atlas_sprites = NULL;
 const char *atlas_sprites_path = NULL;
 
 typedef struct
 {
     bool packed;
-    const char *name;
+    char *name;
     Image image;
     rectangle_t bound;
 } atlas_packing_unite_t;
@@ -25,7 +26,7 @@ static void atlas_unit_to_pack_destroy_callback(void *element, void *args)
     UnloadImage(unit->image);
 }
 
-const char *sprite_path_to_name(const char *path)
+char *sprite_path_to_name(const char *path)
 {
     for (int i = 0; *path == atlas_sprites_path[i]; i++)
     {
@@ -163,22 +164,23 @@ void atlas_load(void)
     atlas_texture = LoadTextureFromImage(atlas);
     // Destroy the packing unit list
 
-    atlas_sprites = array_create(sizeof(sprite_t));
+    atlas_sprites = hashmap_create_string_to_value();
 
     for (size_t i = 0; i < array_count(atlas_unit_to_pack); i++)
     {
         atlas_packing_unite_t *unite = (atlas_packing_unite_t *)array_index(atlas_unit_to_pack, i);
 
-        sprite_t sprite = {
-            .name = unite->name,
+        sprite_t *sprite = __create(sprite_t);
 
+        *sprite = (sprite_t){
             .X = unite->bound.X,
             .Y = unite->bound.Y,
             .Width = unite->bound.Width,
             .Height = unite->bound.Height,
         };
 
-        array_pushback(atlas_sprites, &sprite, sizeof(sprite_t));
+        hashmap_put(atlas_sprites, unite->name, sprite);
+        free(unite->name);
     }
 
     array_destroy(atlas_unit_to_pack, atlas_unit_to_pack_destroy_callback, NULL);
@@ -187,14 +189,7 @@ void atlas_load(void)
 
 void atlas_unload(void)
 {
-    for (size_t i = 0; i < array_count(atlas_sprites); i++)
-    {
-        sprite_t *sprite = (sprite_t *)array_index(atlas_sprites, i);
-
-        free((char *)sprite->name);
-    }
-
-    array_destroy(atlas_sprites, NULL, NULL);
+    hashmap_destroy_with_callback(atlas_sprites, free);
     UnloadTexture(atlas_texture);
 }
 
@@ -211,15 +206,12 @@ texture2d_t atlas_get_texture(void)
 
 sprite_t atlas_sprite_by_name(const char *name)
 {
-    for (size_t i = 0; i < array_count(atlas_sprites); i++)
-    {
-        sprite_t *sprite = (sprite_t *)array_index(atlas_sprites, i);
+    sprite_t *result = (sprite_t *)hashmap_get(atlas_sprites, name);
 
-        if (strcmp(name, sprite->name) == 0)
-        {
-            return *sprite;
-        }
+    if (result == NULL)
+    {
+        return atlas_sprite_by_name("none");
     }
 
-    return atlas_sprite_by_name("none");
+    return *result;
 }
