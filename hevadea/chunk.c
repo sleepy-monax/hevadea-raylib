@@ -1,14 +1,12 @@
-#include <stddef.h>
 #include <raylib.h>
-#include <math.h>
 
-#include "hevadea/chunk.h"
 #include "hevadea/camera.h"
-#include "hevadea/logger.h"
-#include "hevadea/utils.h"
+#include "hevadea/chunk.h"
 #include "hevadea/graphic.h"
+#include "hevadea/logger.h"
+#include "hevadea/utils/Utils.h"
 
-static chunk_t chunks[MAX_LOADED_CHUNK] = {0};
+static chunk_t chunks[MAX_LOADED_CHUNK] = {};
 
 chunk_t *chunk_at(chunk_position_t at)
 {
@@ -55,15 +53,17 @@ chunk_t *chunk_alloc(chunk_position_t at)
     return NULL;
 }
 
-void chunk_iterate_all(chunk_iterate_callback_t callback, void *arg)
+void chunk_iterate_all(void *target, ChunkIterateCallback callback)
 {
+    assert(callback);
+
     for (int i = 0; i < MAX_LOADED_CHUNK; i++)
     {
         chunk_t *chunk = &chunks[i];
 
         if (chunk->state != CHUNK_STATE_UNLOADED)
         {
-            if (callback(chunk, arg) == ITERATION_STOP)
+            if (callback(target, chunk) == ITERATION_STOP)
             {
                 return;
             }
@@ -118,7 +118,7 @@ void chunk_render_terrain_corner(sprite_t sprite, vector_t pos, bool a, bool b, 
     graphic_draw_sprite(sprite, pos, COLOR_WHITE);
 }
 
-iterate_state_t chunk_render_terrain_callback(chunk_t *chunk, void *arg)
+IterationDecision chunk_render_terrain_callback(void *arg, chunk_t *chunk)
 {
     (void)arg;
 
@@ -165,5 +165,5 @@ iterate_state_t chunk_render_terrain_callback(chunk_t *chunk, void *arg)
 
 void chunk_render_terrain(void)
 {
-    camera_interate_on_screen_chunk(chunk_render_terrain_callback, NULL);
+    camera_interate_on_screen_chunk(NULL, (ChunkIterateCallback)chunk_render_terrain_callback);
 }

@@ -1,12 +1,10 @@
-#include <stdlib.h>
-#include <string.h>
 #include <raylib.h>
 
-#include "hevadea/atlas.h"
 #include "hevadea/array.h"
-#include "hevadea/sprite.h"
+#include "hevadea/atlas.h"
 #include "hevadea/filesystem.h"
 #include "hevadea/rectangle.h"
+#include "hevadea/sprite.h"
 
 Texture2D atlas_texture;
 array_t *atlas_sprites = NULL;
@@ -34,12 +32,12 @@ const char *sprite_path_to_name(const char *path)
         path++;
     }
 
-    char *sprite_name = calloc(strlen(path) - strlen(".png") + 1, 1);
+    char *sprite_name = (char *)calloc(strlen(path) - strlen(".png") + 1, 1);
     memcpy(sprite_name, path, strlen(path) - strlen(".png"));
     return sprite_name;
 }
 
-static iterate_state_t atlas_unit_load_callback(const char *path, filesystem_file_type_t type, void *args)
+static IterationDecision atlas_unit_load_callback(const char *path, filesystem_file_type_t type, void *args)
 {
     array_t *unites = (array_t *)args;
 
@@ -81,7 +79,7 @@ atlas_packing_unite_t *atlas_get_unit_to_pack(array_t *atlas_unit_to_pack, posit
 {
     for (size_t i = 0; i < array_count(atlas_unit_to_pack); i++)
     {
-        atlas_packing_unite_t *sprite = array_index(atlas_unit_to_pack, i);
+        atlas_packing_unite_t *sprite = (atlas_packing_unite_t *)array_index(atlas_unit_to_pack, i);
 
         if (!sprite->packed &&
             (pos.X + sprite->bound.Width < atlas_size) &&
@@ -98,7 +96,7 @@ atlas_packing_unite_t *atlas_unit_at(array_t *atlas_unit_to_pack, rectangle_t re
 {
     for (size_t i = 0; i < array_count(atlas_unit_to_pack); i++)
     {
-        atlas_packing_unite_t *sprite = array_index(atlas_unit_to_pack, i);
+        atlas_packing_unite_t *sprite = (atlas_packing_unite_t *)array_index(atlas_unit_to_pack, i);
 
         if (sprite->packed && rectangle_coliding(sprite->bound, rect))
         {
@@ -169,7 +167,7 @@ void atlas_load(void)
 
     for (size_t i = 0; i < array_count(atlas_unit_to_pack); i++)
     {
-        atlas_packing_unite_t *unite = array_index(atlas_unit_to_pack, i);
+        atlas_packing_unite_t *unite = (atlas_packing_unite_t *)array_index(atlas_unit_to_pack, i);
 
         sprite_t sprite = {
             .name = unite->name,
@@ -191,7 +189,7 @@ void atlas_unload(void)
 {
     for (size_t i = 0; i < array_count(atlas_sprites); i++)
     {
-        sprite_t *sprite = array_index(atlas_sprites, i);
+        sprite_t *sprite = (sprite_t *)array_index(atlas_sprites, i);
 
         free((char *)sprite->name);
     }
@@ -215,7 +213,7 @@ sprite_t atlas_sprite_by_name(const char *name)
 {
     for (size_t i = 0; i < array_count(atlas_sprites); i++)
     {
-        sprite_t *sprite = array_index(atlas_sprites, i);
+        sprite_t *sprite = (sprite_t *)array_index(atlas_sprites, i);
 
         if (strcmp(name, sprite->name) == 0)
         {

@@ -1,9 +1,9 @@
 #include <stddef.h>
 #include <string.h>
 
-#include "hevadea/tile/tile.h"
-#include "hevadea/utils.h"
 #include "hevadea/chunk.h"
+#include "hevadea/tile/tile.h"
+#include "hevadea/utils/Utils.h"
 
 tile_blueprint_t TILE_WATER = {
     .name = "water",

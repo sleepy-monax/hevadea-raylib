@@ -1,102 +1,100 @@
-#include <stdlib.h>
-#include <assert.h>
-#include <string.h>
-
 #include "hevadea/array.h"
 
 #define ARRAY_DEFAULT_ALLOCATED 512
 
 array_t *array_create(size_t element_size)
 {
-    array_t *this = malloc(sizeof(array_t));
+    array_t *array = __create(array_t);
 
-    this->elements_allocated = ARRAY_DEFAULT_ALLOCATED;
-    this->elements_size = element_size;
-    this->elements_count = 0;
-    this->elments = malloc(element_size * ARRAY_DEFAULT_ALLOCATED);
+    array->elements_allocated = ARRAY_DEFAULT_ALLOCATED;
+    array->elements_size = element_size;
+    array->elements_count = 0;
+    array->elments = malloc(element_size * ARRAY_DEFAULT_ALLOCATED);
 
-    return this;
+    return array;
 }
 
-void array_destroy(array_t *this, array_element_destroy_callback_t callback, void *args)
+void array_destroy(array_t *array, array_element_destroy_callback_t callback, void *args)
 {
     if (callback)
     {
-        for (size_t i = 0; i < this->elements_count; i++)
+        for (size_t i = 0; i < array->elements_count; i++)
         {
-            callback(array_index(this, i), args);
+            callback(array_index(array, i), args);
         }
     }
 
-    free(this->elments);
-    free(this);
+    free(array->elments);
+    free(array);
 }
 
-void *array_index(array_t *this, size_t index)
+void *array_index(array_t *array, size_t index)
 {
-    assert(index < this->elements_count);
+    assert(index < array->elements_count);
 
-    return (void *)(((size_t)this->elments) + index * this->elements_size);
+    return (void *)(((size_t)array->elments) + index * array->elements_size);
 }
 
-static void array_grow(array_t *this)
+static void array_grow(array_t *array)
 {
-    if (this->elements_count == this->elements_allocated)
+    if (array->elements_count == array->elements_allocated)
     {
-        size_t new_allocated = this->elements_allocated * 2;
+        size_t new_allocated = array->elements_allocated * 2;
 
-        this->elments = realloc(this->elments, new_allocated * this->elements_allocated);
+        array->elments = realloc(array->elments, new_allocated * array->elements_allocated);
 
-        memset((void *)((size_t)(this->elments) + this->elements_count * this->elements_size), 0, (new_allocated - this->elements_count) * this->elements_size);
+        memset((void *)((size_t)(array->elments) + array->elements_count * array->elements_size), 0, (new_allocated - array->elements_count) * array->elements_size);
 
-        this->elements_allocated = new_allocated;
+        array->elements_allocated = new_allocated;
     }
 }
 
-void array_pushback(array_t *this, void *element, size_t size)
+void array_pushback(array_t *array, void *element, size_t size)
 {
-    assert(this->elements_size >= size);
+    assert(array->elements_size >= size);
 
-    array_grow(this);
+    array_grow(array);
 
-    this->elements_count++;
-    void *ptr = array_index(this, this->elements_count - 1);
+    array->elements_count++;
+    void *ptr = array_index(array, array->elements_count - 1);
 
     memcpy(ptr, element, size);
 }
 
 // FIXME: srink array when not enought elements
-// static void array_shrink(array_t *this)
+// static void array_shrink(array_t *array)
 // {
 // }
 
-void array_popback(array_t *this, void *element, size_t size)
+void array_popback(array_t *array, void *element, size_t size)
 {
-    assert(this->elements_size >= size);
+    assert(array->elements_size >= size);
 
-    void *ptr = array_index(this, this->elements_count - 1);
+    void *ptr = array_index(array, array->elements_count - 1);
     memcpy(element, ptr, size);
-    memset(ptr, 0, this->elements_size);
-    this->elements_count--;
+    memset(ptr, 0, array->elements_size);
+    array->elements_count--;
 }
 
-void array_iterate(array_t *this, array_iterate_callback_t callback, void *args)
+void array_iterate(array_t *array, array_iterate_callback_t callback, void *args)
 {
-    for (size_t i = 0; i < this->elements_count; i++)
+    assert(callback);
+
+    for (size_t i = 0; i < array->elements_count; i++)
     {
-        if (callback(array_index(this, i), args) == ITERATION_STOP)
+        if (callback(array_index(array, i), args) == ITERATION_STOP)
         {
             return;
         }
     }
 }
 
-void array_sort(array_t *this, array_sorting_callback_t callback)
+void array_sort(array_t *array, array_sorting_callback_t callback)
 {
-    qsort(this->elments, this->elements_count, this->elements_size, callback);
+    qsort(array->elments, array->elements_count, array->elements_size, callback);
 }
 
-size_t array_count(array_t *this)
+size_t array_count(array_t *array)
 {
-    return this->elements_count;
+    return array->elements_count;
 }

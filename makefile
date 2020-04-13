@@ -8,11 +8,12 @@ CFLAGS = -g \
 		 -MD \
 		 -I. \
 		 -Wall \
-		 -Wextra \
+		 -Wextra  \
+		 -Wc++-compat \
 		 -Werror \
 		 -fsanitize=address \
-		 -fsanitize=undefined 
- 
+		 -fsanitize=undefined
+
 $(PROJECT).out: $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 

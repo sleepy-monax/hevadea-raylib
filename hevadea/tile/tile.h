@@ -1,18 +1,16 @@
 #pragma once
 
+#include "hevadea/atlas.h"
 #include "hevadea/color.h"
 #include "hevadea/position.h"
 #include "hevadea/rectangle.h"
-#include "hevadea/atlas.h"
 
-typedef enum
-{
-    TILE_COMPONENT_SOLID = 1 << 0,
-    TILE_COMPONENT_LIQUID = 1 << 1,
-    TILE_COMPONENT_SPRITE = 1 << 2,
+#define TILE_COMPONENT_SOLID (1 << 0)
+#define TILE_COMPONENT_LIQUID (1 << 1)
+#define TILE_COMPONENT_SPRITE (1 << 2)
 
-    __TILE_COMPONENT_COUNT,
-} tile_component_t;
+typedef unsigned int tile_component_t;
+
 typedef struct
 {
     const char *name;

@@ -1,10 +1,8 @@
-#include <math.h>
-#include <stdlib.h>
 #include <raylib.h>
 
-#include "hevadea/logger.h"
 #include "hevadea/camera.h"
 #include "hevadea/graphic.h"
+#include "hevadea/logger.h"
 
 static position_t camera_position_animated = {0};
 static position_t camera_position_focused = {0};
@@ -120,8 +118,10 @@ rectangle_t camera_screen_bound(void)
     return bound;
 }
 
-void camera_interate_on_screen_chunk(chunk_iterate_callback_t callback, void *arg)
+void camera_interate_on_screen_chunk(void *target, ChunkIterateCallback callback)
 {
+    assert(callback);
+
     chunk_position_t start_pos = rectangle_topleft_chunk(camera_screen_bound());
     chunk_position_t end_pos = rectangle_bottomright_chunk(camera_screen_bound());
 
@@ -135,7 +135,7 @@ void camera_interate_on_screen_chunk(chunk_iterate_callback_t callback, void *ar
 
             if (chunk != NULL)
             {
-                if (callback(chunk, arg) == ITERATION_STOP)
+                if (callback(target, chunk) == ITERATION_STOP)
                 {
                     return;
                 }

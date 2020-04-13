@@ -1,9 +1,9 @@
 #pragma once
 
-#include "hevadea/position.h"
-#include "hevadea/rectangle.h"
 #include "hevadea/chunk.h"
 #include "hevadea/gametime.h"
+#include "hevadea/position.h"
+#include "hevadea/rectangle.h"
 
 position_t camera_get_position(void);
 
@@ -25,4 +25,4 @@ rectangle_t camera_unload_bound(void);
 
 rectangle_t camera_screen_bound(void);
 
-void camera_interate_on_screen_chunk(chunk_iterate_callback_t callback, void *arg);
+void camera_interate_on_screen_chunk(void *target, ChunkIterateCallback callback);

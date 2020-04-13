@@ -1,11 +1,11 @@
 #define _XOPEN_SOURCE 500
 #define __USE_XOPEN_EXTENDED
 
-#include <ftw.h>
 #include <assert.h>
+#include <ftw.h>
 
-#include "hevadea/utils.h"
 #include "hevadea/filesystem.h"
+#include "hevadea/utils/Utils.h"
 
 static bool filesystem_iterate_nested = false;
 static bool filesystem_iterate_stopped = false;
@@ -48,6 +48,8 @@ int filesystem_iterate_native_callback(const char *fpath, const struct stat *sb,
 
 void filesystem_iterate(const char *path, filesystem_iterate_callback_t *callback, void *args)
 {
+    assert(callback);
+
     assert(!filesystem_iterate_nested);
 
     filesystem_iterate_nested = true;

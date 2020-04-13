@@ -1,22 +1,22 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 
-#include "hevadea/utils/list.h"
-#include "hevadea/system/system.h"
 #include "hevadea/logger.h"
+#include "hevadea/system/system.h"
+#include "hevadea/utils/List.h"
 
-#include "hevadea/tile/tile.h"
+#include "hevadea/entity/chicken.h"
 #include "hevadea/entity/entity.h"
+#include "hevadea/entity/fish.h"
+#include "hevadea/entity/flower.h"
 #include "hevadea/entity/player.h"
 #include "hevadea/entity/rabbit.h"
 #include "hevadea/entity/tree.h"
-#include <hevadea/entity/grass_small.h>
+#include "hevadea/tile/tile.h"
 #include <hevadea/entity/grass_medium.h>
+#include <hevadea/entity/grass_small.h>
 #include <hevadea/entity/grass_tall.h>
-#include "hevadea/entity/flower.h"
-#include "hevadea/entity/chicken.h"
-#include "hevadea/entity/fish.h"
 
 const entity_blueprint_t *blueprints[] = {
     &ENTITY_PLAYER,
@@ -32,7 +32,7 @@ const entity_blueprint_t *blueprints[] = {
     NULL,
 };
 
-static list_t *entities = NULL;
+static List *entities = NULL;
 
 const entity_blueprint_t *entity_blueprint(const char *name)
 {
@@ -54,7 +54,7 @@ entity_instance_t *entity_create(const entity_blueprint_t *blueprint, position_t
         entities = list_create();
     }
 
-    entity_instance_t *entity = malloc(sizeof(entity_instance_t));
+    entity_instance_t *entity = __create(entity_instance_t);
 
     memset(entity, 0, sizeof(entity_instance_t));
 
@@ -76,63 +76,63 @@ entity_instance_t *entity_create(const entity_blueprint_t *blueprint, position_t
     return entity;
 }
 
-void entity_destroy(entity_instance_t *this)
+void entity_destroy(entity_instance_t *entity)
 {
-    const entity_blueprint_t *blueprint = this->blueprint;
+    const entity_blueprint_t *blueprint = entity->blueprint;
 
     if (blueprint->destroy)
     {
-        blueprint->destroy(this);
+        blueprint->destroy(entity);
     }
 
-    list_remove(entities, this);
-    free(this);
+    list_remove(entities, entity);
+    free(entity);
 }
 
 /* --- Entity iterator ----------------------------------------------------- */
 
-void entity_iterate_all(entity_iterate_callback_t callback, void *args)
+void entity_iterate_all(void *target, EntityIterateCallback callback)
 {
-    list_iterate(entities, (list_iterate_callback_t)callback, args);
+    list_iterate(entities, target, (ListIterationCallback)callback);
 }
 
 /* --- Entity state --------------------------------------------------------- */
 
-bool entity_has_component(entity_instance_t *this, entity_component_t mask)
+bool entity_has_component(entity_instance_t *entity, entity_component_t mask)
 {
-    return (this->components & mask) == mask;
+    return (entity->components & mask) == mask;
 }
 
-bool entity_is_moving(entity_instance_t *this)
+bool entity_is_moving(entity_instance_t *entity)
 {
-    return this->motion.X != 0 || this->motion.Y != 0;
+    return entity->motion.X != 0 || entity->motion.Y != 0;
 }
 
-rectangle_t entity_get_bound(entity_instance_t *this)
+rectangle_t entity_get_bound(entity_instance_t *entity)
 {
-    if (entity_has_component(this, COMPONENT_COLIDER))
+    if (entity_has_component(entity, COMPONENT_COLIDER))
     {
         return (rectangle_t){
-            this->position.X + this->colider.X,
-            this->position.Y + this->colider.Y,
-            this->colider.Width,
-            this->colider.Height,
+            entity->position.X + entity->colider.X,
+            entity->position.Y + entity->colider.Y,
+            entity->colider.Width,
+            entity->colider.Height,
         };
     }
     else
     {
-        return (rectangle_t){this->position.X - 0.5, this->position.Y - 0.5, 1, 1};
+        return (rectangle_t){entity->position.X - 0.5, entity->position.Y - 0.5, 1, 1};
     }
 }
 
-bool entity_colide_with(entity_instance_t *this, rectangle_t bound)
+bool entity_colide_with(entity_instance_t *entity, rectangle_t bound)
 {
-    return rectangle_coliding(entity_get_bound(this), bound);
+    return rectangle_coliding(entity_get_bound(entity), bound);
 }
 
-chunk_position_t entity_get_chunk(entity_instance_t *this)
+chunk_position_t entity_get_chunk(entity_instance_t *entity)
 {
-    return position_to_chunk_position(this->position);
+    return position_to_chunk_position(entity->position);
 }
 
 bool entity_can_go_here(entity_instance_t *entity, tile_position_t pos)

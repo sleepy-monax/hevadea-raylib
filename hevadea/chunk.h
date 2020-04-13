@@ -1,11 +1,10 @@
 #pragma once
 
-#include "hevadea/position.h"
-#include "hevadea/tile/tile.h"
 #include "hevadea/constants.h"
+#include "hevadea/position.h"
 #include "hevadea/rectangle.h"
-
-#include "hevadea/utils.h"
+#include "hevadea/tile/tile.h"
+#include "hevadea/utils/Utils.h"
 
 typedef enum
 {
@@ -26,9 +25,9 @@ chunk_t *chunk_at(chunk_position_t at);
 
 chunk_t *chunk_alloc(chunk_position_t at);
 
-typedef iterate_state_t (*chunk_iterate_callback_t)(chunk_t *chunk, void *arg);
+typedef IterationDecision (*ChunkIterateCallback)(void *target, chunk_t *chunk);
 
-void chunk_iterate_all(chunk_iterate_callback_t callback, void *arg);
+void chunk_iterate_all(void *target, ChunkIterateCallback callback);
 
 rectangle_t chunk_bound(chunk_position_t at);
 

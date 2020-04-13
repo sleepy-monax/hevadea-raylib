@@ -1,8 +1,8 @@
 #include <math.h>
 #include <unistd.h>
 
-#include "hevadea/utils.h"
 #include "hevadea/logger.h"
+#include "hevadea/utils/Utils.h"
 
 void __attribute__((noreturn)) PANIC(const char *why)
 {

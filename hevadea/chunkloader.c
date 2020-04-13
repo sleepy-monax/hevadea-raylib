@@ -1,15 +1,12 @@
-#include <stddef.h>
-
+#include "hevadea/chunkloader.h"
 #include "hevadea/camera.h"
 #include "hevadea/chunk.h"
-#include "hevadea/chunkloader.h"
-#include "hevadea/generator.h"
-#include "hevadea/utils.h"
 #include "hevadea/entity/entity.h"
+#include "hevadea/generator.h"
 
 /* --- Chunk sheduler ------------------------------------------------------- */
 
-static iterate_state_t chunk_load_shedule_callback(int x, int y, void *args)
+static IterationDecision chunk_load_shedule_callback(int x, int y, void *args)
 {
     (void)args;
 
@@ -34,7 +31,7 @@ static iterate_state_t chunk_load_shedule_callback(int x, int y, void *args)
     return ITERATION_CONTINUE;
 }
 
-static iterate_state_t chunk_unload_shedule_callback(chunk_t *chunk, void *arg)
+static IterationDecision chunk_unload_shedule_callback(void *arg, chunk_t *chunk)
 {
     (void)arg;
 
@@ -60,12 +57,12 @@ void chunkloader_shedule(void)
     iterate_square(camera_pos.X, camera_pos.Y, CHUNK_LOAD_DISTANCE, chunk_load_shedule_callback, NULL);
 
     // Shedule chunk unloading
-    chunk_iterate_all(chunk_unload_shedule_callback, NULL);
+    chunk_iterate_all(NULL, (ChunkIterateCallback)chunk_unload_shedule_callback);
 }
 
 /* --- Chunk loading -------------------------------------------------------- */
 
-static iterate_state_t chunk_load_callback(int x, int y, void *args)
+static IterationDecision chunk_load_callback(int x, int y, void *args)
 {
     (void)args;
 
@@ -91,7 +88,7 @@ void chunkloader_load_chunks(void)
 
 /* --- Chunk unloading ------------------------------------------------------ */
 
-static iterate_state_t entity_unload_callback(entity_instance_t *entity, chunk_t *chunk)
+static IterationDecision entity_unload_callback(chunk_t *chunk, entity_instance_t *entity)
 {
     chunk_position_t entity_pos = entity_get_chunk(entity);
 
@@ -103,13 +100,13 @@ static iterate_state_t entity_unload_callback(entity_instance_t *entity, chunk_t
     return ITERATION_CONTINUE;
 }
 
-static iterate_state_t chunk_unload_callback(chunk_t *chunk, void *args)
+static IterationDecision chunk_unload_callback(void *args, chunk_t *chunk)
 {
     (void)args;
 
     if (chunk->state == CHUNK_STATE_UNLOADING_SHEDULED)
     {
-        entity_iterate_all((entity_iterate_callback_t)entity_unload_callback, chunk);
+        entity_iterate_all(chunk, (EntityIterateCallback)entity_unload_callback);
 
         chunk->state = CHUNK_STATE_UNLOADED;
 
@@ -121,5 +118,5 @@ static iterate_state_t chunk_unload_callback(chunk_t *chunk, void *args)
 
 void chunkloader_unload_chunks(void)
 {
-    chunk_iterate_all(chunk_unload_callback, NULL);
+    chunk_iterate_all(NULL, (ChunkIterateCallback)chunk_unload_callback);
 }
